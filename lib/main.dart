@@ -1,4 +1,4 @@
-import 'package:NoteNest/features/onbording/screens/splashScreen.dart';
+import 'package:NoteNest/features/onbording/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF794098), // Primary Accent
+          seedColor: const Color(0xFF794098), // Primary Accent.
           surface: Colors.grey[900], // Dark Surface
           //brightness: Brightness.light,
         ),

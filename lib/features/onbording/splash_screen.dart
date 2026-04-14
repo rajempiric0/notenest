@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:NoteNest/features/onbording/screens/on_boardingScreen.dart';
+import 'package:NoteNest/features/onbording/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyScreen extends StatelessWidget {
   const MyScreen({super.key});
@@ -40,7 +41,12 @@ class _SplashscreenState extends State<Splashscreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF794098),
       body: Center(
-        child: Image.asset('assets/image/logo.png', height: 208, width: 160),
+        child: SvgPicture.asset(
+          'assets/logo/logo.svg',
+          width: 160,
+          height: 208,
+          semanticsLabel: 'Company Logo', // Recommended for accessibility
+        ),
 
       ),
     );
