@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:NoteNest/features/profile/profile.dart';
 
 class HomePage extends StatefulWidget {
-  final String  name;
-  final String email;
-  const HomePage({super.key,required this.name,required this.email});
+  final String?  name;
+  final String? email;
+  const HomePage({super.key,this.name, this.email});
   @override
   State<HomePage> createState() => _HomePageState();
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:NoteNest/features/auth/screens/login_page.dart';
+import 'package:NoteNest/features/auth/login_page.dart';
 
 class Setting extends StatelessWidget {
   final String name='Raj Thummar';
