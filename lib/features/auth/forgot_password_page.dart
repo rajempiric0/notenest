@@ -1,4 +1,4 @@
-import 'package:NoteNest/features/auth/app_bar.dart';
+import 'package:NoteNest/features/auth/forget_password_controller.dart';
 import 'package:flutter/material.dart';
 
 class ForegotPassword extends StatelessWidget {
@@ -9,7 +9,7 @@ class ForegotPassword extends StatelessWidget {
 
     return Scaffold(
       body: Stack(
-        children: [PageView(children: [Appbar()],),],
+        children: [PageView(children: [ForgotPasswordPage()],),],
 
       ),
 

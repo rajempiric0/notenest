@@ -1,10 +1,9 @@
 import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'forget_password_controller.dart';
 import 'auth_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,9 +13,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _firstNameController = TextEditingController();
   bool isLogin = false;
   bool _isChecked = false;
-
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,10 +60,15 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (!isLogin)
                   Row(
-                    children: const [
-                      Expanded(child: CustomField(hint: 'First Name')),
-                      SizedBox(width: 10),
-                      Expanded(child: CustomField(hint: 'Last Name')),
+                    children: [
+                      Expanded(
+                          child: CustomField(
+                            hint: 'First Name',
+                            controller: _firstNameController, // Pass the controller here
+                          )
+                      ),
+                      const SizedBox(width: 10),
+                       Expanded(child: CustomField(hint: 'Last Name',)),
                     ],
                   ),
 
@@ -88,30 +98,32 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>ForegotPassword()));},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) => ForgotPasswordPage())); },
                       child: const Text('Forgot password?'),
                     ),
                   ),
 
                 if (!isLogin)
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _isChecked = value ?? false;
-                        });
-                      },
-                    ),
-                    const Expanded(
-                      child: Text(
-                        'By continuing you agree to our Terms & Policy',
-                        style: TextStyle(fontSize: 12),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _isChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isChecked = value ?? true;
+                          });
+                        },
                       ),
-                    ),
-                  ],
-                ),
+                      const Expanded(
+                        child: Text(
+                          'By continuing you agree to our Terms & Policy',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
 
                 const SizedBox(height: 10),
 
@@ -125,16 +137,22 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: _isChecked
-                        ? () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
-                          }
-                        : null,
+                    // onPressed: _isChecked
+                    //     ? () {
+                    onPressed: () {
+                      // Capture the name (default to "User" if empty or if in Login mode)
+                      String nameToPass = _firstNameController.text.isNotEmpty
+                          ? _firstNameController.text
+                          : "Guest";
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(name: nameToPass), // Pass it here
+                        ),
+                      );
+                    },
+
                     child: Text(
                       isLogin ? 'Log In' : 'Sign up',
                       style: TextStyle(color: Colors.white),

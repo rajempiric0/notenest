@@ -77,6 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 padding: EdgeInsets.only(left: 0),
                 child: Container(
                   child: ElevatedButton(
+
                     onPressed: () {
                       _controller.previousPage(
                         duration: const Duration(milliseconds: 300),
