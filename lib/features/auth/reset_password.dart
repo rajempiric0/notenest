@@ -1,5 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ResetPasswordDialog extends StatelessWidget {
   const ResetPasswordDialog({super.key});
@@ -7,21 +8,28 @@ class ResetPasswordDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Color(0xFFFFFFFF),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
+
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Success Icon
+            // Success Image
+
             Container(
-              width: 70,
-              height: 70,
-              decoration: const BoxDecoration(
-                color: Color(0xffFFD84D),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.check, size: 35, color: Colors.black),
+              padding: EdgeInsetsGeometry.all(8),
+
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(),
+              child: SvgPicture.asset(
+                'assets/auth/forgot_pass.svg',
+                width: 133,
+                height: 117,
+                fit: BoxFit.cover,
+              )
+
             ),
 
             const SizedBox(height: 20),
