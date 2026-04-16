@@ -155,7 +155,9 @@ class _HomePageState extends State<HomePage> {
 
                     ),
                   ],
+
                 ),
+
               ),
             ),
           ),
@@ -169,6 +171,7 @@ class _HomePageState extends State<HomePage> {
     final bool isActive = selectedFilter == text;
 
     return GestureDetector(
+
       onTap: () {
         setState(() {
           selectedFilter = text;
