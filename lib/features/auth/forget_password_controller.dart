@@ -30,34 +30,44 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
                 const SizedBox(height: 20),
 
-                CircleAvatar(                   // Back Button
-                radius: 24,
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new_outlined, size: 24),color: Colors.black,
-                      onPressed: () => Navigator.pop(context),
+                Row(
+
+                  children: [
+                    CircleAvatar(
+                      radius: 22.5,
+                      backgroundColor: Colors.grey,
+                      child:  CircleAvatar(
+                        radius: 22,
+                        backgroundColor: Color.fromARGB(255, 246, 244, 244),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new_outlined, size: 18),
+                          color: Colors.black,
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
 
                 const SizedBox(height: 30),
 
-                Center(
-                  child: Text(            // Title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+
+                  children:[ Text(            // Title
                     "Forgot Password",
-                    textAlign: TextAlign.center,
                     style: GoogleFonts.beVietnamPro(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                     ),
+                ],
                 ),
 
 
@@ -66,7 +76,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Center(
                   child: Text(
                     "Enter your registered email below to receive password reset instructions.",
-                    textAlign: TextAlign.center,
                     style: GoogleFonts.beVietnamPro(
                       color: Color(0xFF6F6F73),
                       fontSize: 14,
@@ -77,15 +86,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                 const SizedBox(height: 30),
 
-
-                Text(         //Email
-                  "Email Address",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.beVietnamPro(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0),
+                        child: Text(         //Email
+                        "Email Address",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.beVietnamPro(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                                        ),
+                      ),
+                    ],
                   ),
-                ),
 
 
                 const SizedBox(height: 10),
