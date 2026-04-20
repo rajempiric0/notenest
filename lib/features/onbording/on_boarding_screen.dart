@@ -69,26 +69,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: Colors.white,
-        leadingWidth: 55,
+        leadingWidth: 60,
 
         leading: currentIndex > 0
             ? Padding(
-                padding: EdgeInsets.only(left: 0),
+                padding: EdgeInsets.only(left: 20),
                 child: Container(
-                  child: ElevatedButton(
-
-                    onPressed: () {
-                      _controller.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      backgroundColor: Colors.white,
-                      //  elevation: 2,
+                  height: 44,
+                  width: 44,
+                  decoration:BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Color(0xFFE5E2E3),
+                      width: 2,
                     ),
-                    child: Icon(Icons.arrow_back_ios, color: Colors.black),
+                  ),
+                  child: Center(
+                      child: IconButton(
+                          onPressed: () {
+                            if (currentIndex > 0) {
+                              _controller.previousPage(
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.ease,
+                              );
+                            }
+                          }, icon: (Icon(Icons.arrow_back_ios_new_outlined,color: Color(0xFF252526),size: 15,)),
+                      ),
+                    
                   ),
                 ),
               )
@@ -101,7 +108,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
-            child: Text('Skip'),
+            child: Text('Skip',style: GoogleFonts.beVietnamPro(color: Color(0xFF6F6F73),fontSize: 18),),
           ),
         ],
       ),
@@ -157,7 +164,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Text(
                             data.subtitle,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.beVietnamPro(fontSize: 16),
+                            
+                            style: GoogleFonts.beVietnamPro(fontSize: 16,color: Color(0xFF6F6F73)),
                           ),
                         ],
                       ),

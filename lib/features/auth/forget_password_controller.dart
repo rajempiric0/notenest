@@ -33,20 +33,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-
                 const SizedBox(height: 20),
 
                 Row(
-
                   children: [
                     CircleAvatar(
                       radius: 22.5,
                       backgroundColor: Colors.grey,
-                      child:  CircleAvatar(
+                      child: CircleAvatar(
                         radius: 22,
                         backgroundColor: Color.fromARGB(255, 246, 244, 244),
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios_new_outlined, size: 18),
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_outlined,
+                            size: 18,
+                          ),
                           color: Colors.black,
                           onPressed: () => Navigator.pop(context),
                         ),
@@ -60,16 +61,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
 
-                  children:[ Text(            // Title
-                    "Forgot Password",
-                    style: GoogleFonts.beVietnamPro(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                  children: [
+                    Text(
+                      // Title
+                      "Forgot Password",
+                      style: GoogleFonts.beVietnamPro(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    ),
-                ],
+                  ],
                 ),
-
 
                 const SizedBox(height: 10),
 
@@ -86,26 +88,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                 const SizedBox(height: 30),
 
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 0),
-                        child: Text(         //Email
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0),
+                      child: Text(
+                        //Email
                         "Email Address",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
-                                        ),
                       ),
-                    ],
-                  ),
-
+                    ),
+                  ],
+                ),
 
                 const SizedBox(height: 10),
 
-                Container(                         //Email Container
+                Container(
+                  //Email Container
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -114,9 +117,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                   child: TextField(
                     controller: emailController,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.mail_outline),
+                    decoration: InputDecoration(
+                      icon: const Icon(Icons.mail_outline),
                       hintText: "e.g. jackrob187@gmail.com",
+                      hintStyle: GoogleFonts.beVietnamPro(fontSize: 14),
                       border: InputBorder.none,
                     ),
                   ),
@@ -137,19 +141,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                     ),
                     child: Text(
-                      "Continue",textAlign: TextAlign.center,
+                      "Continue",
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
-
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  ),
+                ),
 
-
-                const SizedBox(height: 20)
+                const SizedBox(height: 20),
               ],
             ),
           ),

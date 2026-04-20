@@ -5,40 +5,43 @@ class CommonHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onBack;
 
-  const CommonHeader({
-    super.key,
-    required this.title,
-    this.onBack,
-  });
+  const CommonHeader({super.key, required this.title, this.onBack});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-
-      padding: const EdgeInsets.only(top: 20,left: 20),
-      child: Row(
+      padding: const EdgeInsets.only(top: 20, left: 20),
+      child: Stack(
+        alignment: Alignment.centerLeft,
         children: [
-
-          CircleAvatar(
-            radius: 22.5,
-            backgroundColor: Colors.grey,
-            child: CircleAvatar(
-              radius: 22,
-
-              backgroundColor: const Color.fromARGB(255, 246, 244, 244),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  size: 18,
+          // Back Button
+          GestureDetector(
+            onTap: () {
+              if (onBack != null) {
+                onBack!();
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            child: Container(
+              height: 44,
+              width: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFE5E2E3), width: 2),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 24,
+                  color: Colors.black45,
                 ),
-                color: Colors.black,
-                onPressed: onBack ?? () => Navigator.pop(context),
               ),
             ),
           ),
-          const Spacer(),
-
-          Text(
+          // Title
+          Center(
+            child: Text(
               title,
               textAlign: TextAlign.center,
               style: GoogleFonts.beVietnamPro(
@@ -46,8 +49,7 @@ class CommonHeader extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
-          const Spacer(), // to keep text centered
+          ),
         ],
       ),
     );

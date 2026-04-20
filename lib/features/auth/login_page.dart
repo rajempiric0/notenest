@@ -1,225 +1,281 @@
+import 'package:NoteNest/features/auth/forget_password_controller.dart';
+import 'package:NoteNest/features/auth/signup_page.dart';
 import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'forget_password_controller.dart';
-import 'auth_model.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _firstNameController = TextEditingController();
-  bool isLogin = false;
-  bool _isChecked = false;
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    super.dispose();
-  }
-  
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController PasswordController = TextEditingController();
+
+  late var _isObscured = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          width: 400,
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/logo/logo_auth.svg'), //image path
-                SizedBox(height: 16),
-                Text(
-                  isLogin ? 'Welcome Back!' : 'Create Your Account',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.beVietnamPro(
+      backgroundColor: const Color(0xFFFFFFFF),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+
+
+              const SizedBox(height: 40),
+
+              /// Icon
+              SvgPicture.asset(
+                'assets/logo/logo_auth.svg', width: 100, height: 100,),
+
+              const SizedBox(height: 20),
+
+              /// Title
+              const Text(
+                "Welcome Back!",
+                style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  isLogin
-                      ? 'Sign in to continue managing your tasks and stay organized.'
-                      : 'Start organizing your tasks and boost your productivity today.',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.beVietnamPro(
-                    fontSize: 14,
-                    color: Color(0xFF6F6F73),
-                  ),
-                ),
-                const SizedBox(height: 20),
+                    color: Colors.black),
+              ),
 
-                if (!isLogin)
-                  Row(
-                    children: [
-                      Expanded(
-                          child: CustomField(
-                            hint: 'First Name',
-                            controller: _firstNameController, // Pass the controller here
-                          )
-                      ),
-                      const SizedBox(width: 10),
-                       Expanded(child: CustomField(hint: 'Last Name',)),
-                    ],
-                  ),
+              const SizedBox(height: 10),
 
-                if (!isLogin) const SizedBox(height: 12),
+              /// Subtitle
+              const Text(
+                "Sign in to continue managing your tasks and stay organized.",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
 
-                const CustomField(hint: 'Email Address', icon: Icons.email),
-                const SizedBox(height: 12),
+              const SizedBox(height: 30),
 
-                const CustomField(
-                  hint: 'Password',
-                  icon: Icons.lock,
-                  isPassword: true,
-                ),
-
-                if (!isLogin) const SizedBox(height: 12),
-
-                if (!isLogin)
-                  const CustomField(
-                    hint: 'Confirm Password',
-                    icon: Icons.lock,
-                    isPassword: true,
-                  ),
-
-                const SizedBox(height: 12),
-
-                if (isLogin)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => ForgotPasswordPage())); },
-                      child: const Text('Forgot password?'),
-                    ),
-                  ),
-
-                if (!isLogin)
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isChecked = value ?? true;
-                          });
-                        },
-                      ),
-                      const Expanded(
-                        child: Text(
-                          'By continuing you agree to our Terms & Policy',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                const SizedBox(height: 10),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+              /// Email Label
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Text( //Email
+                      "Email Address",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.beVietnamPro(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    // onPressed: _isChecked
-                    //     ? () {
-                    onPressed: () {
-                      // Capture the name (default to "User" if empty or if in Login mode)
-                      String nameToPass = _firstNameController.text.isNotEmpty
-                          ? _firstNameController.text
-                          : "Guest";
+                  ),
+                ],
+              ),
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(name: nameToPass), // Pass it here
-                        ),
-                      );
-                    },
 
-                    child: Text(
-                      isLogin ? 'Log In' : 'Sign up',
-                      style: TextStyle(color: Colors.white),
+              const SizedBox(height: 10),
+
+              Container( //Email Container
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.mail_outline),
+                    hintText: "e.g. jackrob187@gmail.com",
+                    border: InputBorder.none,
+                ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Password Label
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Text( //Email
+                      "Password",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.beVietnamPro(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
+                ],
+              ),
+
+
+              const SizedBox(height: 10),
+
+              Container( //Email Container
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: TextField(
+                  obscureText: _isObscured,
+
+                  controller: PasswordController,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.lock),
+                    hintText: "* * * * * * * * ",
+
+                    hintStyle: GoogleFonts.beVietnamPro(
+                      fontSize: 14,
+                      color: Color(0xFF7D7D80),
+
+                    ),
+                    border: InputBorder.none,
+                      suffixIcon: IconButton(onPressed: (){setState(() {
+                        _isObscured = !_isObscured;
+                      });}, icon: Icon(Icons.remove_red_eye_outlined)),
+                  ),
+
+                ),
                 ),
 
-                const SizedBox(height: 20),
 
-                Row(
-                  children: const [
-                    Expanded(child: Divider()),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Text('Or continue with'),
-                    ),
-                    Expanded(child: Divider()),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.g_mobiledata, size: 28),
-                        label: const Text('Google'),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.apple),
-                        label: const Text('Apple'),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isLogin = !isLogin;
-                    });
+              const SizedBox(height: 10),
+
+              /// Forgot Password
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => ForgotPasswordPage()));
                   },
-                  child: Text.rich(
-                    TextSpan(
-                      text: isLogin
-                          ? "Don't have an account? "
-                          : 'Already have an account? ',
-                      children: [
-                        TextSpan(
-                          text: isLogin ? 'Sign Up' : 'Log In',
-                          style: const TextStyle(
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: const Text(
+                    "Forgot password?",
+                    style: TextStyle(color: Color(0xFF7A4E9E)),
                   ),
                 ),
-              ],
-            ),
+              ),
+
+              const SizedBox(height: 10),
+
+              /// Login Button
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF7A4E9E),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                  },
+                  child: const Text(
+                    "Log In",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              /// Divider
+              Row(
+                children: const [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("Or continue with"),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              /// Social Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: _socialButton(
+                      SvgPicture.asset(
+                        'assets/auth/google.svg',
+                        width: 24,
+                        height: 24,
+                        fit: BoxFit.contain,
+                      ),
+                      "Google",
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _socialButton(
+                      const Icon(Icons.apple),
+                      "Apple",
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              /// Sign Up
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don’t have an account? "),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => SignUpPage()));
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Color(0xFF7A4E9E),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _socialButton(Widget icon, String text) {
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(color: Colors.grey.shade300),
+        color: Colors.white,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          icon,
+          const SizedBox(width: 8),
+          Text(text),
+        ],
       ),
     );
   }
