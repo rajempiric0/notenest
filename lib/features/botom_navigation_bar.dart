@@ -1,107 +1,87 @@
-import 'package:NoteNest/features/tasks/pages/in_progress_task_page.dart';
+import 'package:NoteNest/features/setting/setting_page.dart';
+import 'package:NoteNest/features/tasks/create_task.dart';
+import 'package:NoteNest/features/tasks/pages/task_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class CustomBottomBar extends StatelessWidget {
+import 'dashboard/screens/home_page.dart';
+
+class CustomBottomBar extends StatefulWidget {
   final int currentIndex;
-
+  final Function(int)? onTap;
 
   const CustomBottomBar({
     super.key,
     required this.currentIndex,
-
+    this.onTap,
   });
 
+  @override
+  State<CustomBottomBar> createState() => _CustomBottomBarState();
+}
+
+class _CustomBottomBarState extends State<CustomBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
+      clipBehavior: Clip.none, // Allows FAB to sit above the bar
       children: [
-
         Container(
           height: 93,
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 5,
-              )
-            ],
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
           ),
-
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-
-              GestureDetector(
-                onTap: () => onTap(0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.home,
-                      color: currentIndex == 0
-                          ? const Color(0xff7B4BB7)
-                          : Colors.grey,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "Home",
-                      style: TextStyle(
-                        color: currentIndex == 0
-                            ? const Color(0xff7B4BB7)
-                            : Colors.grey,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 50),
-
-              GestureDetector(
-                onTap: () => onTap(1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.settings,
-                      color: currentIndex == 1
-                          ? const Color(0xff7B4BB7)
-                          : Colors.grey,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "Settings",
-                      style: TextStyle(
-                        color: currentIndex == 1
-                            ? const Color(0xff7B4BB7)
-                            : Colors.grey,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              _buildNavItem(Icons.home, "Home", 0),
+              const SizedBox(width: 50), // Gap for FAB
+              _buildNavItem(Icons.settings, "Settings", 1),
             ],
           ),
         ),
-
         Positioned(
           top: -25,
           child: FloatingActionButton(
-            onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>InProgressTaskPage()));},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CreateTask()),
+              );
+            },
             shape: const CircleBorder(),
             backgroundColor: const Color(0xff7B4BB7),
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.add, color: Colors.white),
           ),
         ),
       ],
     );
   }
-}
 
-void onTap(int i) {
+  // Suggestion: Replace GestureDetector with InkWell
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    bool isSelected = widget.currentIndex == index;
+    Color color = isSelected ? const Color(0xff7B4BB7) : Colors.grey;
+    return InkWell(
+      onTap: () {if (index == 0) {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+      } else {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingPage()));
+      }},
+      customBorder: const CircleBorder(), // Ripple effect shape
+      child: Column(
+        mainAxisSize: MainAxisSize.min, // Use minimum space
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: color),
+          const SizedBox(height: 4),
+          Text(label,
+              style: GoogleFonts.beVietnamPro(color: color, fontSize: 12)),
+        ],
+      ),
+    );
+  }
 }

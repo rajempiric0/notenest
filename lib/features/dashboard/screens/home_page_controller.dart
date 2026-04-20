@@ -1,8 +1,5 @@
-import 'package:NoteNest/features/botom_navigation_bar.dart';
-import 'package:NoteNest/features/tasks/pages/task_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Task {
   String title;
@@ -33,7 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   String selectedFilter = "All";
 
-  // Demo Data
+  /// Demo Data
   List<Task> tasks = [
     Task(
       title: "Interview",
@@ -42,37 +39,22 @@ class _HomePageState extends State<HomePage> {
       isCompleted: false,
     ),
     Task(
-      title: "Interview",
-      subtitle: "UI/UX interview",
-      date: "13/04/2026",
-      isCompleted: true,
-    ),
-
-    Task(
       title: "Client Meeting",
       subtitle: "Regarding new project",
       date: "13/04/2026",
       isCompleted: true,
-    ),
-    Task(
-      title: "Client Meeting",
-      subtitle: "Regarding new project",
-      date: "13/04/2026",
-      isCompleted: false,
     ),
   ];
 
+  /// Filter Logic
   List<Task> get filteredTasks {
-    if (selectedFilter == "All") {
-      return []; // Triggers isEmpty = true
-    } else if (selectedFilter == "Pending") {
+    if (selectedFilter == "Pending") {
       return tasks.where((t) => !t.isCompleted).toList();
     } else if (selectedFilter == "Completed") {
       return tasks.where((t) => t.isCompleted).toList();
     }
-    return [];
+    return tasks;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +62,17 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F6FC),
-      bottomNavigationBar: CustomBottomBar(currentIndex: 0),
       body: SafeArea(
         child: Column(
           children: [
-            // TOP SECTION
+            /// TOP SECTION
             Padding(
-              padding: const EdgeInsets.only(top: 62, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello, "Jack" 👋',
+                    'Hello, ${widget.name ?? "Jack"} 👋',
                     style: GoogleFonts.beVietnamPro(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -107,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 18),
 
-                  // Search
+                  /// Search
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -140,7 +121,7 @@ class _HomePageState extends State<HomePage> {
 
                   const SizedBox(height: 18),
 
-                  // Filters
+                  /// Filters
                   Row(
                     children: [
                       _buildFilterButton("All"),
@@ -156,7 +137,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 10),
 
-            // CONTENT
+            /// CONTENT
             Expanded(
               child: isEmpty
                   ? _buildEmptyState()
@@ -173,125 +154,100 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-// TASK CARD
+
+  /// TASK CARD
   Widget _buildTaskCard(Task task) {
-    return InkWell(
-      onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>TaskDetailPage()));},
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(width: 1, color: const Color(0xFFE2E2E2)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  task.title, // Fixed: use task.title instead of hardcoded string
-                  style: GoogleFonts.beVietnamPro(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: const Color(0xFF262626),
-                  ),
-                ),
-                Row( // Added const here
-                  children: [
-                    SvgPicture.asset('assets/homepage/trash.svg',height: 22,width: 22,fit: BoxFit.contain,color: Color(0xFFFF3D00),),
-                    SizedBox(width: 10),
-                    SvgPicture.asset('assets/homepage/edit.svg',height: 22,width: 22,fit: BoxFit.contain,color: Color(0xFF794098),),
-                  ],
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 5),
-
-            Text(task.subtitle, // Fixed: use task.subtitle instead of hardcoded string
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// Title Row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                task.title,
                 style: GoogleFonts.beVietnamPro(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: const Color(0xFF6F6F73),
-                )),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.delete, color: Colors.red, size: 20),
+                  SizedBox(width: 10),
+                  Icon(Icons.edit, color: Color(0xFF794098), size: 20),
+                ],
+              ),
+            ],
+          ),
 
-            const SizedBox(height: 8),
+          const SizedBox(height: 5),
 
-            Text(
-              "Due: ${task.date}", // Fixed: use task.date
-              style: GoogleFonts.beVietnamPro(
-                  color: const Color(0xFF6F6F73),
+          Text(task.subtitle, style: GoogleFonts.beVietnamPro()),
+
+          const SizedBox(height: 5),
+
+          Text(
+            "Due: ${task.date}",
+            style: GoogleFonts.beVietnamPro(color: Colors.grey),
+          ),
+
+          const SizedBox(height: 10),
+
+          Align(
+            alignment: Alignment.bottomRight,
+            child: task.isCompleted
+                ? Container(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                "Completed",
+                style: GoogleFonts.beVietnamPro(
+                  color: Colors.blue,
                   fontSize: 12,
-                  fontWeight: FontWeight.w500),
-            ),
-
-            Align(
-              alignment: Alignment.bottomRight,
-              child: task.isCompleted
-                  ? Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                ),
+              ),
+            )
+                : GestureDetector(
+              onTap: () {
+                setState(() {
+                  task.isCompleted = true;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.green.shade100,
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  "Completed",
+                  "Mark as completed",
                   style: GoogleFonts.beVietnamPro(
-                    color: Colors.blue,
+                    color: Colors.green,
                     fontSize: 12,
-                  ),
-                ),
-              )
-                  : GestureDetector(
-                onTap: () {
-                  setState(() {
-                    task.isCompleted = true;
-                  });
-                },
-                child: Container(
-                  height: 35,
-                  width: 170,
-                  decoration: BoxDecoration(
-                    color: Colors.green[50],
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/homepage/complete.svg',
-                        width: 16,
-                        height: 16,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Mark as completed",
-                        style: GoogleFonts.beVietnamPro(
-                          color: Colors.green,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
 
-
-
+  /// EMPTY STATE
   Widget _buildEmptyState() {
-    // REMOVED the "if (selectedFilter == 'All')" recursive call from here
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -302,8 +258,6 @@ class _HomePageState extends State<HomePage> {
               'assets/homepage/home_page.png',
               width: 200,
               height: 180,
-              errorBuilder: (context, error, stackTrace) =>
-              const Icon(Icons.assignment, size: 100, color: Colors.grey),
             ),
             const SizedBox(height: 10),
             Text(

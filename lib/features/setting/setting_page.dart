@@ -1,41 +1,35 @@
-import 'package:NoteNest/features/botom_navigation_bar.dart' show CustomBottomBar;
+import 'package:NoteNest/features/botom_navigation_bar.dart'
+    show CustomBottomBar;
 import 'package:NoteNest/features/setting/header.dart';
 import 'package:NoteNest/features/setting/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:NoteNest/features/auth/login_page.dart';
-class Setting extends StatefulWidget {
-  final String name;
-  final String email;
 
-  const Setting({super.key, required this.name, required this.email});
+class SettingPage extends StatefulWidget {
+  final String? name;
+  final String? email;
 
+  const SettingPage({super.key, this.name, this.email});
   @override
-  State<Setting> createState() => _SettingState();
+  State<SettingPage> createState() => _SettingPageState();
 }
 
-class _SettingState extends State<Setting> {
+class _SettingPageState extends State<SettingPage> {
   //PageController _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 246, 244, 244),
+      backgroundColor: Color(0xFFF7F6FC),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              const SizedBox(height: 20),
-
-              CommonHeader(
-                title: "Settings",
-              ),
-
-
+              CommonHeader(title: "Settings"),
 
               const SizedBox(height: 30),
 
@@ -45,7 +39,13 @@ class _SettingState extends State<Setting> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: InkWell(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));},
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                    );
+                  },
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -63,7 +63,7 @@ class _SettingState extends State<Setting> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.name,
+                              'Jack Rob',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class _SettingState extends State<Setting> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              widget.email,
+                              'jackrob187@gmail.com',
                               style: const TextStyle(
                                 color: Color(0xFF6A6B73),
                                 fontSize: 13,
@@ -131,9 +131,7 @@ class _SettingState extends State<Setting> {
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => LoginPage()),
                         );
                       },
                       child: Row(
@@ -152,21 +150,16 @@ class _SettingState extends State<Setting> {
                               color: Colors.red,
                             ),
                           ),
-
                         ],
                       ),
                     ),
-
                   ],
                 ),
               ),
-
-
-         ], ),
+            ],
+          ),
         ),
-
-    ),
-
+      ),
     );
   }
 }
