@@ -1,3 +1,4 @@
+import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:NoteNest/features/tasks/pages/edit_task_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -71,13 +72,17 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.transparent),
                         ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            'assets/homepage/edit.svg',
-                            height: 24,
-                            width: 24,
-                            fit: BoxFit.contain,
-                            color: Colors.black87,
+                        child: InkWell(
+                          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>EditTaskPage()));},
+                          child: Center(
+
+                            child: SvgPicture.asset(
+                              'assets/homepage/edit.svg',
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.contain,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
                       ),
@@ -113,7 +118,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       ),
                     ),
                     Text(
-                      'e.g. Interview',
+                      'Interview',
                       style: GoogleFonts.beVietnamPro(
                         color: Color(0xFF262626),
                         fontSize: 16,
@@ -129,7 +134,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       ),
                     ),
                     Text(
-                      'e.g. UI/UX interview',
+                      'UI/UX interview',
                       style: GoogleFonts.beVietnamPro(
                         color: Color(0xFF262626),
                         fontSize: 16,
@@ -225,10 +230,10 @@ void _showDeleteDialog(BuildContext context) {
                 height: 101,
                 width: 101,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFEBEE),
+                  color: Colors.transparent,
 
                 ),
-                child: SvgPicture.asset('assets/homepage/home_page.svg',width: 100,height: 100,fit: BoxFit.contain),
+                child: SvgPicture.asset('assets/homepage/delete_task.svg',width: 100,height: 100,fit: BoxFit.contain),
 
               ),
               const SizedBox(height: 24),
@@ -265,18 +270,21 @@ void _showDeleteDialog(BuildContext context) {
                         // Add your delete logic here
                         Navigator.pop(context); // Close dialog
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFFFF3D00)),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Text(
-                          'Yes, Delete',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.beVietnamPro(
-                            color: const Color(0xFFFF3D00),
-                            fontWeight: FontWeight.w600,
+                      child: InkWell(
+                        onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFFFF3D00)),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(
+                            'Yes, Delete',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.beVietnamPro(
+                              color: const Color(0xFFFF3D00),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

@@ -73,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
         leading: currentIndex > 0
             ? Padding(
-                padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(left: 20),
                 child: Container(
                   height: 44,
                   width: 44,

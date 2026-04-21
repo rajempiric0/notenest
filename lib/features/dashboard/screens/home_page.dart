@@ -73,7 +73,6 @@ class _HomePageState extends State<HomePage> {
     return [];
   }
 
-
   @override
   Widget build(BuildContext context) {
     final bool isEmpty = filteredTasks.isEmpty;
@@ -160,25 +159,32 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: isEmpty
                   ? _buildEmptyState()
-                  : ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: filteredTasks.length,
-                itemBuilder: (context, index) {
-                  return _buildTaskCard(filteredTasks[index]);
-                },
-              ),
+                  : ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      itemCount: filteredTasks.length,
+                      itemBuilder: (context, index) {
+                        return _buildTaskCard(filteredTasks[index]);
+                      },
+                separatorBuilder: (context, index) => SizedBox(height: 15,),
+                    ),
             ),
           ],
         ),
       ),
     );
   }
-// TASK CARD
+
+  // TASK CARD
   Widget _buildTaskCard(Task task) {
-    return InkWell(
-      onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>TaskDetailPage()));},
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TaskDetailPage()),
+        );
+      },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        // margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -200,11 +206,24 @@ class _HomePageState extends State<HomePage> {
                     color: const Color(0xFF262626),
                   ),
                 ),
-                Row( // Added const here
+                Row(
+                  // Added const here
                   children: [
-                    SvgPicture.asset('assets/homepage/trash.svg',height: 22,width: 22,fit: BoxFit.contain,color: Color(0xFFFF3D00),),
+                    SvgPicture.asset(
+                      'assets/homepage/trash.svg',
+                      height: 22,
+                      width: 22,
+                      fit: BoxFit.contain,
+                      color: Color(0xFFFF3D00),
+                    ),
                     SizedBox(width: 10),
-                    SvgPicture.asset('assets/homepage/edit.svg',height: 22,width: 22,fit: BoxFit.contain,color: Color(0xFF794098),),
+                    SvgPicture.asset(
+                      'assets/homepage/edit.svg',
+                      height: 22,
+                      width: 22,
+                      fit: BoxFit.contain,
+                      color: Color(0xFF794098),
+                    ),
                   ],
                 ),
               ],
@@ -212,82 +231,86 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 5),
 
-            Text(task.subtitle, // Fixed: use task.subtitle instead of hardcoded string
-                style: GoogleFonts.beVietnamPro(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: const Color(0xFF6F6F73),
-                )),
+            Text(
+              task.subtitle, // Fixed: use task.subtitle instead of hardcoded string
+              style: GoogleFonts.beVietnamPro(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: const Color(0xFF6F6F73),
+              ),
+            ),
 
             const SizedBox(height: 8),
 
             Text(
               "Due: ${task.date}", // Fixed: use task.date
               style: GoogleFonts.beVietnamPro(
-                  color: const Color(0xFF6F6F73),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500),
+                color: const Color(0xFF6F6F73),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
             ),
 
             Align(
               alignment: Alignment.bottomRight,
               child: task.isCompleted
                   ? Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  "Completed",
-                  style: GoogleFonts.beVietnamPro(
-                    color: Colors.blue,
-                    fontSize: 12,
-                  ),
-                ),
-              )
-                  : GestureDetector(
-                onTap: () {
-                  setState(() {
-                    task.isCompleted = true;
-                  });
-                },
-                child: Container(
-                  height: 35,
-                  width: 170,
-                  decoration: BoxDecoration(
-                    color: Colors.green[50],
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/homepage/complete.svg',
-                        width: 16,
-                        height: 16,
-                        fit: BoxFit.contain,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Mark as completed",
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        "Completed",
                         style: GoogleFonts.beVietnamPro(
-                          color: Colors.green,
+                          color: Colors.blue,
                           fontSize: 12,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          task.isCompleted = true;
+                        });
+                      },
+                      child: Container(
+                        height: 35,
+                        width: 170,
+                        decoration: BoxDecoration(
+                          color: Colors.green[50],
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/homepage/complete.svg',
+                              width: 16,
+                              height: 16,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              "Mark as completed",
+                              style: GoogleFonts.beVietnamPro(
+                                color: Colors.green,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
             ),
           ],
         ),
       ),
     );
   }
-
-
 
   Widget _buildEmptyState() {
     // REMOVED the "if (selectedFilter == 'All')" recursive call from here
@@ -303,7 +326,7 @@ class _HomePageState extends State<HomePage> {
               width: 200,
               height: 180,
               errorBuilder: (context, error, stackTrace) =>
-              const Icon(Icons.assignment, size: 100, color: Colors.grey),
+                  const Icon(Icons.assignment, size: 100, color: Colors.grey),
             ),
             const SizedBox(height: 10),
             Text(
@@ -328,7 +351,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// FILTER BUTTON
+  // FILTER BUTTON
   Widget _buildFilterButton(String text) {
     final bool isActive = selectedFilter == text;
 

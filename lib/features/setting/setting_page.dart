@@ -3,9 +3,9 @@ import 'package:NoteNest/features/botom_navigation_bar.dart'
 import 'package:NoteNest/features/setting/header.dart';
 import 'package:NoteNest/features/setting/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:NoteNest/features/auth/login_page.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../auth/signup_page.dart';
 
 class SettingPage extends StatefulWidget {
   final String? name;
@@ -23,29 +23,29 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF7F6FC),
+      bottomNavigationBar: CustomBottomBar(currentIndex: 1),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CommonHeader(title: "Settings"),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CommonHeader(title: "Settings"),
 
-              const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
 
-              Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
-                    );
-                  },
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -87,10 +87,14 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
               ),
+            ),
 
-              const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-              Container(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Container(
+                height: 150,
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -103,7 +107,7 @@ class _SettingPageState extends State<SettingPage> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
+                            color: Colors.transparent,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: SvgPicture.asset(
@@ -123,28 +127,29 @@ class _SettingPageState extends State<SettingPage> {
                       ],
                     ),
 
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     Divider(color: Colors.grey.shade300),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                        _showDeleteDialog(context);
                       },
                       child: Row(
                         children: [
-                          SvgPicture.asset(
-                            'assets/setting/logout.svg',
-                            height: 24,
-                            width: 24,
-                            fit: BoxFit.contain,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset(
+                              'assets/setting/logout.svg',
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                           SizedBox(width: 12),
                           Text(
                             "Log out",
+
                             style: GoogleFonts.beVietnamPro(
                               fontSize: 16,
                               color: Colors.red,
@@ -156,10 +161,132 @@ class _SettingPageState extends State<SettingPage> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+void _showDeleteDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        backgroundColor: Color(0xFFFFFFFF), // Your desired color
+        surfaceTintColor: Color(0xFFFFFFFF),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Wrap content height
+
+            children: [
+              // Trash Icon with Circular Background
+              Container(
+                height: 101,
+                width: 101,
+                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+                child: Image.asset(
+                  'assets/setting/setting_delete.png',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Title
+              Text(
+                'Log out?',
+                style: GoogleFonts.beVietnamPro(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF252526),
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // Subtitle
+              Text(
+                'Are you sure you want to log out?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.beVietnamPro(
+                  fontSize: 14,
+                  color: const Color(0xFF252526),
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              // Action Buttons
+              Row(
+                children: [
+                  // Yes, Delete Button
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Add your delete logic here
+                        Navigator.pop(context); // Close dialog
+                      },
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpPage(),
+                            ),
+                            (route) => false,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFFFF3D00)),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(
+                            'Yes',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.beVietnamPro(
+                              color: const Color(0xFFFF3D00),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  // No, Keep it Button
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF794098),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Text(
+                          'No',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.beVietnamPro(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
