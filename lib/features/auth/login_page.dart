@@ -25,16 +25,11 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 60),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
 
-
-              const SizedBox(height: 40),
-
-              /// Icon
               SvgPicture.asset(
                 'assets/logo/logo_auth.svg', width: 100, height: 100,),
 
@@ -51,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 10),
 
-              /// Subtitle
+              // Subtitle
               const Text(
                 "Sign in to continue managing your tasks and stay organized.",
                 textAlign: TextAlign.center,

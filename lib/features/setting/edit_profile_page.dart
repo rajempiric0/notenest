@@ -1,16 +1,26 @@
 import 'package:NoteNest/features/auth/signup_page.dart';
+import 'package:NoteNest/features/setting/setting_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+import 'header.dart';
+
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _EditProfilePageState extends State<EditProfilePage> {
+  final TextEditingController _firstNameController = TextEditingController(text: 'Jack');
+  final TextEditingController _lastNameController = TextEditingController(text: 'Rob');
+  final TextEditingController _emailController = TextEditingController(text: 'jackrob187@gmail.com');
+  @override
+  void initState(){
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,87 +28,31 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 62, left: 20),
-              child: Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  // Back Button
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      width: 44,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFE5E2E3),
-                          width: 2,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.arrow_back_ios_new,
-                          size: 24,
-                          color: Colors.black45,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Title
-                  Center(
-                    child: Text(
-                      'Profile Details',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.beVietnamPro(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsGeometry.only(right: 20),
-
-                    child: Align(
-
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        height: 44,
-                        width: 44,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: const Color(0xFFE5E2E3),
-
-                            width: 2,
-                          ),
-                        ),
-                        child:  Center(
-                          child: SvgPicture.asset('assetName')
-                        ),
-                      ),
-
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            CommonHeader(title: 'Profile Details'),
             Padding(
               padding: const EdgeInsets.only(top: 28, left: 20, right: 20),
-              child: Expanded(
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.topCenter,
-                  child: Image.asset(
-                    'assets/setting/person_image.png',
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.contain,
+              child: Stack(
+                children: [
+                  Container(
+                    width: 80,height: 80,
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      'assets/setting/person_image.png',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
+                  Positioned(
+                    right: 0,bottom: 0,
+                    child: Image.asset(
+                      'assets/setting/camera_icon.png',
+                      height: 28,
+                      width: 28,
+                      fit:BoxFit.contain,
+
+                    ),),
+                ],
               ),
             ),
             Padding(
@@ -118,22 +72,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(height: 5),
 
                   _buildBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      child: Text(
-                        "  Jack",
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF6F6F73),
+                    child: TextField(
+                      controller: _firstNameController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                        hintStyle: GoogleFonts.beVietnamPro(
+                          color: Color(0xFFE2E2E2),
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
+
                         ),
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 12),
 
                   Text(
@@ -145,23 +97,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 5),
+
                   _buildBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      child: Text(
-                        "  Rob",
-                        style: GoogleFonts.beVietnamPro(
+                    child: TextField(
+                      controller: _lastNameController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                        hintStyle: GoogleFonts.beVietnamPro(
                           color: Color(0xFF6F6F73),
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 12),
 
                   Text(
@@ -173,65 +123,58 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 5),
+
                   _buildBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.email_outlined, // Your icon
-                            color: Color(0xFF6F6F73),
-                            size: 22, // Match text size or adjust
-                          ),
-                          Text(
-                            "  jackrob187@gmail.com",
-                            style: GoogleFonts.beVietnamPro(
-                              color: Color(0xFF6F6F73),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                    child: TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        hintText: "jackrob187@gmail.com",
+                        prefixIcon: Icon(Icons.email_outlined),
+
+                        contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                        hintStyle: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF6F6F73),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 12),
                 ],
               ),
             ),
             const Spacer(),
 
+
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
-              child: GestureDetector(
-                onTap: () {
-                  _showDeleteDialog(context);
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(color: const Color(0xFFFF3D00)),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Delete Account",
-                    style: GoogleFonts.beVietnamPro(
-                      color: const Color(0xFFFF3D00),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
+              padding: const EdgeInsets.only(bottom: 40,left: 20,right: 20),
+              child: SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF794098),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SettingPage()));
+                  },
+                  child: const Text(
+                    "Save Changes",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
             ),
+
           ],
+
         ),
+
       ),
     );
   }
@@ -239,26 +182,49 @@ class _ProfilePageState extends State<ProfilePage> {
 
 Widget _buildBox({required child}) {
   return Container(
-    height: 47,
-    width: double.infinity,
     decoration: BoxDecoration(
-      color: const Color(0xFFF7F6FC),
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: Colors.transparent),
+      border: Border.all(color: Color(0xFFE2E2E2)),
     ),
     child: child,
   );
 }
 
+Widget _socialButton(Widget icon, String text) {
+  return Container(
+    height: 50,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(25),
+      border: Border.all(color: Colors.grey.shade300),
+      color: Colors.white,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        icon,
+        const SizedBox(width: 8),
+        Text(text),
+      ],
+    ),
+  );
+}
+
+
 void _showDeleteDialog(BuildContext context) {
   showDialog(
+
     context: context,
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: Color(0xFFFFFFFF), // Your desired color
         surfaceTintColor: Color(0xFFFFFFFF),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+
+          borderRadius: BorderRadius.circular(24),
+        ),
         child: Padding(
+
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min, // Wrap content height
@@ -315,15 +281,16 @@ void _showDeleteDialog(BuildContext context) {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpPage(),
-                            ),
-                            (route) => false,
+                              builder: (context) => SignUpPage(),),
+                                (route) =>false,
                           );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFFFF3D00)),
+                            border: Border.all(
+                              color: const Color(0xFFFF3D00),
+                            ),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Text(
@@ -370,3 +337,5 @@ void _showDeleteDialog(BuildContext context) {
     },
   );
 }
+
+

@@ -57,6 +57,8 @@ class _CreateTaskState extends State<CreateTask> {
                                 controller: _taskTitleController,
                                 decoration: InputDecoration(
                                   hintText: "  e.g. Interview",
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+
                                   hintStyle: GoogleFonts.beVietnamPro(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -84,6 +86,8 @@ class _CreateTaskState extends State<CreateTask> {
                                 controller: _descriptionController,
                                 decoration: InputDecoration(
                                   hintText: "  e.g. UI/UX interview ",
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+
                                   hintStyle: GoogleFonts.beVietnamPro(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -121,6 +125,8 @@ class _CreateTaskState extends State<CreateTask> {
                                     maxWidth: 20,
                                   ),
                                   hintText: "    dd/mm/yyyy",
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+
                                   hintStyle: GoogleFonts.beVietnamPro(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -193,7 +199,7 @@ class _CreateTaskState extends State<CreateTask> {
     if (picked != null) {
       setState(() {
         _dateController.text =
-        "${picked.day}/${picked.month}/${picked.year}";
+        "    ${picked.day}/${picked.month}/${picked.year}";
       });
     }
   }
