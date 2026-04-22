@@ -20,7 +20,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
+  late var _isObscured = true;
+  late var _isObscuredText = true;
 
   bool _isChecked = false;
 
@@ -34,15 +36,18 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
 
-              /// TOP ICON
+              Padding(
+                padding: const EdgeInsets.only(top: 23),
+                child: SvgPicture.asset(
+                  'assets/logo/logo_auth.svg',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
 
-              SvgPicture.asset('assets/logo/logo_auth.svg',width: 100,height: 100,),
+              const SizedBox(height: 12),
 
-              const SizedBox(height: 20),
-
-              /// TITLE
               Text(
                 "Create Your Account",
                 style: GoogleFonts.beVietnamPro(
@@ -52,9 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
 
-              // SUBTITLE
               Text(
                 "Start organizing your tasks and boost your productivity today.",
                 textAlign: TextAlign.center,
@@ -65,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
 
-              const SizedBox(height: 25),
+              const SizedBox(height: 24),
               IntrinsicHeight(
                 child: Row(
                   children: [
@@ -88,13 +92,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
 
               Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 0),
-                    child: Text( //Email
+                    child: Text(
+                      //Email
                       "Email Address",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
@@ -106,10 +111,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
 
+              const SizedBox(height: 4),
 
-              const SizedBox(height: 10),
-
-              Container( //Email Container
+              Container(
+                //Email Container
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -118,22 +123,23 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 child: TextField(
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.mail_outline),
+                  decoration:  InputDecoration(
+                    icon: SvgPicture.asset('assets/auth/sms.svg',width: 22,height: 22,fit: BoxFit.cover,),
                     hintText: "e.g. jackrob187@gmail.com",
                     border: InputBorder.none,
                   ),
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
 
-              /// Password Label
+              // Password Label
               Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 0),
-                    child: Text( //Email
+                    child: Text(
+                      //Email
                       "Password",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
@@ -145,10 +151,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
 
+              const SizedBox(height: 4),
 
-              const SizedBox(height: 10),
-
-              Container( //Email Container
+              Container(
+                //Email Container
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -156,26 +162,38 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
-                  obscureText: true,
+                  obscureText: _isObscuredText,
 
                   controller: passwordController,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.lock),
-                    hintText: "* * * * * * * * ",
-                    suffixIcon: Icon(Icons.visibility),
 
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsetsGeometry.symmetric(
+                      vertical: 15,
+                      horizontal: 5,
+                    ),
+                    icon: SvgPicture.asset('assets/auth/lock.svg',width: 22,height: 22,fit: BoxFit.cover,),
+                    hintText: "* * * * * * * * ",
 
                     hintStyle: GoogleFonts.beVietnamPro(
                       fontSize: 14,
-
+                      color: Color(0xFF7D7D80),
                     ),
                     border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isObscuredText = !_isObscuredText;
+                        });
+                      },
+                      icon: _isObscuredText == true
+                          ? Icon(Icons.remove_red_eye_outlined)
+                          : Icon(Icons.visibility_off_outlined),
+                    ),
                   ),
                 ),
               ),
 
-
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   Padding(
@@ -192,10 +210,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
 
+              const SizedBox(height: 4),
 
-              const SizedBox(height: 10),
-
-              Container( //Email Container
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -203,66 +220,81 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
-                  obscureText: true,
+                  obscureText: _isObscured,
 
                   controller: confirmPasswordController,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.lock),
+                    contentPadding: EdgeInsetsGeometry.symmetric(
+                      vertical: 15,
+                      horizontal: 5,
+                    ),
+                    icon: SvgPicture.asset('assets/auth/lock.svg',width: 22,height: 22,fit: BoxFit.cover,),
                     hintText: "* * * * * * * * ",
-                    suffixIcon: Icon(Icons.visibility_off_outlined),
-
 
                     hintStyle: GoogleFonts.beVietnamPro(
                       fontSize: 14,
-
+                      color: Color(0xFF7D7D80),
                     ),
                     border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isObscured = !_isObscured;
+                        });
+                      },
+                      icon: _isObscured == true
+                          ? Icon(Icons.remove_red_eye_outlined)
+                          : Icon(Icons.visibility_off_outlined),
+                    ),
                   ),
                 ),
               ),
 
-              /// TERMS
-              Row(
-                children: [
-                  Checkbox(
-                    value: _isChecked,
-                    onChanged: (bool? newValue) {
-                      setState(() {
-                        _isChecked = newValue!; // Updates the state on tap
-                      });
-                    },
-                  ),
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        text: "By continuing you agree to our ",
-                        style: const TextStyle(color: Colors.grey),
-                        children: [
-                          TextSpan(
-                            text: "Terms",
-                            style: TextStyle(
-                              color: Colors.deepPurple.shade400,
-                              fontWeight: FontWeight.w500,
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: _isChecked,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          _isChecked = newValue!; // Updates the state on tap
+                        });
+                      },
+                    ),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          text: "By continuing you agree to our ",
+                          style: const TextStyle(color: Colors.grey,fontSize: 14),
+                          children: [
+                            TextSpan(
+                              text: "Terms",
+                              style: TextStyle(decoration:TextDecoration.underline ,
+                                color: Colors.deepPurple.shade400,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14
+                              ),
                             ),
-                          ),
-                          const TextSpan(text: " & "),
-                          TextSpan(
-                            text: "Policy",
-                            style: TextStyle(
-                              color: Colors.deepPurple.shade400,
-                              fontWeight: FontWeight.w500,
+                            const TextSpan(text: "\n&  "),
+                            TextSpan(
+                              text: "Policy",
+                              style: TextStyle(decoration: TextDecoration.underline,
+                                color: Colors.deepPurple.shade400,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               const SizedBox(height: 10),
 
-              /// SIGN UP BUTTON
               SizedBox(
                 width: double.infinity,
                 height: 55,
@@ -295,10 +327,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 1.5,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [
-                            Colors.transparent,
-                            Color(0xFFD2D2D2),
-                          ],
+                          colors: [Colors.transparent, Color(0xFFD2D2D2)],
                         ),
                       ),
                     ),
@@ -321,10 +350,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 1.5,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [
-                            Colors.grey.shade400,
-                            Color(0xFFD2D2D2),
-                          ],
+                          colors: [Colors.grey.shade400, Color(0xFFD2D2D2)],
                         ),
                       ),
                     ),
@@ -363,7 +389,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   const Text("Don’t have an account? "),
                   InkWell(
-                    onTap:()=> Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage()),),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    ),
                     child: Text(
                       "Sign In",
                       style: TextStyle(
@@ -372,7 +401,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ),
-
                 ],
               ),
 

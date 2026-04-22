@@ -14,11 +14,9 @@ class ResetPasswordDialog extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
-
           mainAxisSize: MainAxisSize.min,
           children: [
             // Success Image
-
             Container(
               padding: EdgeInsetsGeometry.all(8),
 
@@ -29,8 +27,7 @@ class ResetPasswordDialog extends StatelessWidget {
                 width: 133,
                 height: 117,
                 fit: BoxFit.cover,
-              )
-
+              ),
             ),
 
             const SizedBox(height: 20),
@@ -66,7 +63,10 @@ class ResetPasswordDialog extends StatelessWidget {
 
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginPage()));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff7A49A5),

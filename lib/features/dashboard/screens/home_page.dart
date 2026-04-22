@@ -165,7 +165,8 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return _buildTaskCard(filteredTasks[index]);
                       },
-                separatorBuilder: (context, index) => SizedBox(height: 15,),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 15),
                     ),
             ),
           ],
@@ -313,8 +314,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildEmptyState() {
-    // REMOVED the "if (selectedFilter == 'All')" recursive call from here
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -351,7 +350,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // FILTER BUTTON
+  // Filter button
   Widget _buildFilterButton(String text) {
     final bool isActive = selectedFilter == text;
 

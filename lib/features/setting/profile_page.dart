@@ -1,4 +1,5 @@
 import 'package:NoteNest/features/auth/signup_page.dart';
+import 'package:NoteNest/features/setting/edit_profile_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,25 +63,39 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsetsGeometry.only(right: 20),
 
                     child: Align(
-
                       alignment: Alignment.topRight,
-                      child: Container(
-                        height: 44,
-                        width: 44,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: const Color(0xFFE5E2E3),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditProfilePage(),
+                            ),
+                          );
+                        },
 
-                            width: 2,
+                        child: Container(
+                          height: 44,
+                          width: 44,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: const Color(0xFFE5E2E3),
+
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: SvgPicture.asset(
+                              'assets/homepage/edit.svg',
+                              width: 24,
+                              height: 24,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                        child:  Center(
-                          child: SvgPicture.asset('assetName')
-                        ),
                       ),
-
                     ),
                   ),
                 ],

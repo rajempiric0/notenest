@@ -12,7 +12,7 @@ class CreateTask extends StatefulWidget {
 
 class _CreateTaskState extends State<CreateTask> {
   late final TextEditingController _taskTitleController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
@@ -28,11 +28,12 @@ class _CreateTaskState extends State<CreateTask> {
 
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Column(
                   children: [
-
-                    // FORM (SCROLLABLE)
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
@@ -57,7 +58,9 @@ class _CreateTaskState extends State<CreateTask> {
                                 controller: _taskTitleController,
                                 decoration: InputDecoration(
                                   hintText: "  e.g. Interview",
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
 
                                   hintStyle: GoogleFonts.beVietnamPro(
                                     fontSize: 14,
@@ -86,7 +89,9 @@ class _CreateTaskState extends State<CreateTask> {
                                 controller: _descriptionController,
                                 decoration: InputDecoration(
                                   hintText: "  e.g. UI/UX interview ",
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
 
                                   hintStyle: GoogleFonts.beVietnamPro(
                                     fontSize: 14,
@@ -125,7 +130,10 @@ class _CreateTaskState extends State<CreateTask> {
                                     maxWidth: 20,
                                   ),
                                   hintText: "    dd/mm/yyyy",
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 10,
+                                  ),
 
                                   hintStyle: GoogleFonts.beVietnamPro(
                                     fontSize: 14,
@@ -149,7 +157,14 @@ class _CreateTaskState extends State<CreateTask> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomePage()));},
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff7A49A5),
                             shape: RoundedRectangleBorder(
@@ -199,7 +214,7 @@ class _CreateTaskState extends State<CreateTask> {
     if (picked != null) {
       setState(() {
         _dateController.text =
-        "    ${picked.day}/${picked.month}/${picked.year}";
+            "    ${picked.day}/${picked.month}/${picked.year}";
       });
     }
   }

@@ -12,8 +12,6 @@ class AuthController extends StatefulWidget {
 class _AuthControllerState extends State<AuthController> {
   @override
   Widget build(BuildContext context) {
-    bool isLogin = false;
-
     return Scaffold(
       body: Center(
         child: Container(
@@ -42,12 +40,12 @@ class _AuthControllerState extends State<AuthController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Welcome Back!',textAlign: TextAlign.center,
+                            'Welcome Back!',
+                            textAlign: TextAlign.center,
                             style: GoogleFonts.beVietnamPro(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
-
                           ),
                           Padding(padding: EdgeInsetsGeometry.only(top: 8)),
                           Text(
@@ -61,9 +59,7 @@ class _AuthControllerState extends State<AuthController> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-
-                            ),
+                            child: TextFormField(),
                           ),
                         ],
                       ),

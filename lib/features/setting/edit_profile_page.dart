@@ -14,13 +14,20 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final TextEditingController _firstNameController = TextEditingController(text: 'Jack');
-  final TextEditingController _lastNameController = TextEditingController(text: 'Rob');
-  final TextEditingController _emailController = TextEditingController(text: 'jackrob187@gmail.com');
+  final TextEditingController _firstNameController = TextEditingController(
+    text: 'Jack',
+  );
+  final TextEditingController _lastNameController = TextEditingController(
+    text: 'Rob',
+  );
+  final TextEditingController _emailController = TextEditingController(
+    text: 'jackrob187@gmail.com',
+  );
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +41,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               child: Stack(
                 children: [
                   Container(
-                    width: 80,height: 80,
+                    width: 80,
+                    height: 80,
                     alignment: Alignment.topCenter,
                     child: Image.asset(
                       'assets/setting/person_image.png',
@@ -44,14 +52,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                   Positioned(
-                    right: 0,bottom: 0,
+                    right: 0,
+                    bottom: 0,
                     child: Image.asset(
                       'assets/setting/camera_icon.png',
                       height: 28,
                       width: 28,
-                      fit:BoxFit.contain,
-
-                    ),),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -80,7 +89,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           color: Color(0xFFE2E2E2),
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-
                         ),
                         border: InputBorder.none,
                       ),
@@ -131,7 +139,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         hintText: "jackrob187@gmail.com",
                         prefixIcon: Icon(Icons.email_outlined),
 
-                        contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 10,
+                        ),
                         hintStyle: GoogleFonts.beVietnamPro(
                           color: Color(0xFF6F6F73),
                           fontSize: 14,
@@ -147,9 +158,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             const Spacer(),
 
-
             Padding(
-              padding: const EdgeInsets.only(bottom: 40,left: 20,right: 20),
+              padding: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
               child: SizedBox(
                 width: double.infinity,
                 height: 55,
@@ -161,7 +171,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SettingPage()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingPage()),
+                    );
                   },
                   child: const Text(
                     "Save Changes",
@@ -170,11 +183,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
             ),
-
           ],
-
         ),
-
       ),
     );
   }
@@ -201,30 +211,20 @@ Widget _socialButton(Widget icon, String text) {
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        icon,
-        const SizedBox(width: 8),
-        Text(text),
-      ],
+      children: [icon, const SizedBox(width: 8), Text(text)],
     ),
   );
 }
 
-
 void _showDeleteDialog(BuildContext context) {
   showDialog(
-
     context: context,
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: Color(0xFFFFFFFF), // Your desired color
         surfaceTintColor: Color(0xFFFFFFFF),
-        shape: RoundedRectangleBorder(
-
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: Padding(
-
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min, // Wrap content height
@@ -281,16 +281,15 @@ void _showDeleteDialog(BuildContext context) {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpPage(),),
-                                (route) =>false,
+                              builder: (context) => SignUpPage(),
+                            ),
+                            (route) => false,
                           );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              color: const Color(0xFFFF3D00),
-                            ),
+                            border: Border.all(color: const Color(0xFFFF3D00)),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Text(
@@ -337,5 +336,3 @@ void _showDeleteDialog(BuildContext context) {
     },
   );
 }
-
-

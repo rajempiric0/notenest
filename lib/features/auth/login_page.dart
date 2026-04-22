@@ -2,7 +2,7 @@ import 'package:NoteNest/features/auth/forget_password_controller.dart';
 import 'package:NoteNest/features/auth/signup_page.dart';
 import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:flutter/material.dart';
-import'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController PasswordController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   late var _isObscured = true;
 
@@ -25,23 +25,26 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 60),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               SvgPicture.asset(
-                'assets/logo/logo_auth.svg', width: 100, height: 100,),
+                'assets/logo/logo_auth.svg',
+                width: 100,
+                height: 100,
+              ),
 
               const SizedBox(height: 20),
 
-              /// Title
+              // Title
               const Text(
                 "Welcome Back!",
                 style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
 
               const SizedBox(height: 10),
@@ -55,27 +58,23 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 30),
 
-              /// Email Label
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0),
-                    child: Text( //Email
-                      "Email Address",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.beVietnamPro(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+              // Email Label
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  //Email
+                  "Email Address",
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
                   ),
-                ],
+                ),
               ),
 
-
               const SizedBox(height: 10),
-
-              Container( //Email Container
+              //Email Container
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -84,11 +83,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: TextField(
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.mail_outline),
+                  decoration: InputDecoration(
+                    icon: SvgPicture.asset(
+                      'assets/auth/sms.svg',
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.cover,
+                    ),
                     hintText: "e.g. jackrob187@gmail.com",
                     border: InputBorder.none,
-                ),
+                  ),
                 ),
               ),
 
@@ -99,7 +103,8 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 0),
-                    child: Text( //Email
+                    child: Text(
+                      //Email
                       "Password",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
@@ -111,10 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
+              const SizedBox(height: 4),
 
-              const SizedBox(height: 10),
-
-              Container( //Email Container
+              Container(
+                //Email Container
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -124,35 +129,49 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextField(
                   obscureText: _isObscured,
 
-                  controller: PasswordController,
+                  controller: passwordController,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.lock),
+                    icon: SvgPicture.asset(
+                      'assets/auth/lock.svg',
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.cover,
+                    ),
+
                     hintText: "* * * * * * * * ",
 
                     hintStyle: GoogleFonts.beVietnamPro(
                       fontSize: 14,
                       color: Color(0xFF7D7D80),
-
                     ),
                     border: InputBorder.none,
-                      suffixIcon: IconButton(onPressed: (){setState(() {
-                        _isObscured = !_isObscured;
-                      });}, icon: Icon(Icons.remove_red_eye_outlined)),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isObscured = !_isObscured;
+                        });
+                      },
+                      icon: _isObscured == true
+                          ? Icon(Icons.remove_red_eye_outlined)
+                          : Icon(Icons.visibility_off_outlined),
+                    ),
                   ),
-
                 ),
-                ),
-
+              ),
 
               const SizedBox(height: 10),
 
-              /// Forgot Password
+              // Forgot Password
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ForgotPasswordPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPasswordPage(),
+                      ),
+                    );
                   },
                   child: const Text(
                     "Forgot password?",
@@ -163,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 10),
 
-              /// Login Button
+              // Login Button
               SizedBox(
                 width: double.infinity,
                 height: 55,
@@ -175,7 +194,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
                   },
                   child: const Text(
                     "Log In",
@@ -186,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 20),
 
-              /// Divider
+              // Divider
               Row(
                 children: const [
                   Expanded(child: Divider()),
@@ -200,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 20),
 
-              /// Social Buttons
+              // Social Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -217,25 +239,24 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: _socialButton(
-                      const Icon(Icons.apple),
-                      "Apple",
-                    ),
+                    child: _socialButton(const Icon(Icons.apple), "Apple"),
                   ),
                 ],
               ),
 
               const SizedBox(height: 30),
 
-              /// Sign Up
+              // Sign Up
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don’t have an account? "),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => SignUpPage()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
                     },
                     child: const Text(
                       "Sign Up",
@@ -266,11 +287,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          icon,
-          const SizedBox(width: 8),
-          Text(text),
-        ],
+        children: [icon, const SizedBox(width: 8), Text(text)],
       ),
     );
   }

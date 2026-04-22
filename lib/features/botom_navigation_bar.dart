@@ -1,6 +1,5 @@
 import 'package:NoteNest/features/setting/setting_page.dart';
 import 'package:NoteNest/features/tasks/create_task.dart';
-import 'package:NoteNest/features/tasks/pages/task_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,11 +9,7 @@ class CustomBottomBar extends StatefulWidget {
   final int currentIndex;
   final Function(int)? onTap;
 
-  const CustomBottomBar({
-    super.key,
-    required this.currentIndex,
-    this.onTap,
-  });
+  const CustomBottomBar({super.key, required this.currentIndex, this.onTap});
 
   @override
   State<CustomBottomBar> createState() => _CustomBottomBarState();
@@ -49,7 +44,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreateTask()),
+                MaterialPageRoute(builder: (context) => CreateTask()),
               );
             },
             shape: const CircleBorder(),
@@ -61,16 +56,23 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
     );
   }
 
-  // Suggestion: Replace GestureDetector with InkWell
   Widget _buildNavItem(IconData icon, String label, int index) {
     bool isSelected = widget.currentIndex == index;
     Color color = isSelected ? const Color(0xff7B4BB7) : Colors.grey;
     return InkWell(
-      onTap: () {if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-      } else {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingPage()));
-      }},
+      onTap: () {
+        if (index == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => HomePage()),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => SettingPage()),
+          );
+        }
+      },
       customBorder: const CircleBorder(), // Ripple effect shape
       child: Column(
         mainAxisSize: MainAxisSize.min, // Use minimum space
@@ -78,8 +80,10 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         children: [
           Icon(icon, color: color),
           const SizedBox(height: 4),
-          Text(label,
-              style: GoogleFonts.beVietnamPro(color: color, fontSize: 12)),
+          Text(
+            label,
+            style: GoogleFonts.beVietnamPro(color: color, fontSize: 12),
+          ),
         ],
       ),
     );

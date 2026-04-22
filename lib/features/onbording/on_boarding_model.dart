@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 class OnboardingModel {
-   String? image;
+  String? image;
   final String title;
   final String subtitle;
 

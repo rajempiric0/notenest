@@ -1,6 +1,7 @@
 import 'package:NoteNest/features/botom_navigation_bar.dart'
     show CustomBottomBar;
 import 'package:NoteNest/features/setting/header.dart';
+import 'package:NoteNest/features/setting/language_page.dart';
 import 'package:NoteNest/features/setting/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,29 +103,40 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(10),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LanguagePage(),
                           ),
-                          child: SvgPicture.asset(
-                            'assets/setting/translate.svg',
-                            height: 24,
-                            width: 24,
-                            fit: BoxFit.contain,
+                        );
+                      },
+
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/setting/translate.svg',
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            "Language",
-                            style: GoogleFonts.beVietnamPro(fontSize: 16),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              "Language",
+                              style: GoogleFonts.beVietnamPro(fontSize: 16),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     const SizedBox(height: 10),

@@ -10,7 +10,7 @@ class CommonHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 62, left: 20),
+      padding: const EdgeInsets.only(top: 12, left: 20),
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
@@ -47,7 +47,6 @@ class CommonHeader extends StatelessWidget {
               style: GoogleFonts.beVietnamPro(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-
               ),
             ),
           ),
