@@ -36,7 +36,6 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               Padding(
                 padding: const EdgeInsets.only(top: 23),
                 child: SvgPicture.asset(
@@ -103,8 +102,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       "Email Address",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF262626)
                       ),
                     ),
                   ),
@@ -122,9 +122,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF6F6F73),
+                  ),
                   controller: emailController,
-                  decoration:  InputDecoration(
-                    icon: SvgPicture.asset('assets/auth/sms.svg',width: 22,height: 22,fit: BoxFit.cover,),
+                  decoration: InputDecoration(
+
+                    icon: SvgPicture.asset(
+                      'assets/auth/sms.svg',
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.cover,
+                    ),
                     hintText: "e.g. jackrob187@gmail.com",
                     border: InputBorder.none,
                   ),
@@ -143,8 +154,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       "Password",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF262626)
                       ),
                     ),
                   ),
@@ -162,6 +174,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF6F6F73),
+                  ),
                   obscureText: _isObscuredText,
 
                   controller: passwordController,
@@ -171,12 +188,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       vertical: 15,
                       horizontal: 5,
                     ),
-                    icon: SvgPicture.asset('assets/auth/lock.svg',width: 22,height: 22,fit: BoxFit.cover,),
+                    icon: SvgPicture.asset(
+                      'assets/auth/lock.svg',
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.cover,
+                    ),
                     hintText: "* * * * * * * * ",
 
                     hintStyle: GoogleFonts.beVietnamPro(
                       fontSize: 14,
                       color: Color(0xFF7D7D80),
+                      fontWeight: FontWeight.w400,
                     ),
                     border: InputBorder.none,
                     suffixIcon: IconButton(
@@ -220,6 +243,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF6F6F73),
+                  ),
                   obscureText: _isObscured,
 
                   controller: confirmPasswordController,
@@ -228,12 +256,19 @@ class _SignUpPageState extends State<SignUpPage> {
                       vertical: 15,
                       horizontal: 5,
                     ),
-                    icon: SvgPicture.asset('assets/auth/lock.svg',width: 22,height: 22,fit: BoxFit.cover,),
+                    icon: SvgPicture.asset(
+                      'assets/auth/lock.svg',
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.cover,
+                    ),
                     hintText: "* * * * * * * * ",
+
 
                     hintStyle: GoogleFonts.beVietnamPro(
                       fontSize: 14,
                       color: Color(0xFF7D7D80),
+                      fontWeight: FontWeight.w400,
                     ),
                     border: InputBorder.none,
                     suffixIcon: IconButton(
@@ -266,23 +301,29 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: RichText(
                         text: TextSpan(
                           text: "By continuing you agree to our ",
-                          style: const TextStyle(color: Colors.grey,fontSize: 14),
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF737373),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
                           children: [
                             TextSpan(
                               text: "Terms",
-                              style: TextStyle(decoration:TextDecoration.underline ,
-                                color: Colors.deepPurple.shade400,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14
+                              style: GoogleFonts.beVietnamPro(
+                                decoration: TextDecoration.underline,
+                                color: Color(0xFF794098),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
                               ),
                             ),
                             const TextSpan(text: "\n&  "),
                             TextSpan(
                               text: "Policy",
-                              style: TextStyle(decoration: TextDecoration.underline,
-                                color: Colors.deepPurple.shade400,
+                              style: GoogleFonts.beVietnamPro(
+                                decoration: TextDecoration.underline,
+                                color: Color(0xFF794098),
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ],
@@ -293,7 +334,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 24),
 
               SizedBox(
                 width: double.infinity,
@@ -311,14 +352,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
+                  child:  Text(
                     "Sign up",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: GoogleFonts.beVietnamPro(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
               Row(
                 children: [
@@ -339,7 +384,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     "Or continue with",
                     style: GoogleFonts.beVietnamPro(
                       fontSize: 14,
-                      color: Colors.grey,
+                      color: Color(0xFF6F6F73),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
 
@@ -358,7 +404,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
 
-              const SizedBox(height: 15),
+              const SizedBox(height: 22.5),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -381,13 +427,19 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 48),
 
-              /// FOOTER
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don’t have an account? "),
+                   Text(
+                    "Have an account? ",
+                    style: GoogleFonts.beVietnamPro(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: Color(0xFF6F6F73),
+                    ),
+                  ),
                   InkWell(
                     onTap: () => Navigator.push(
                       context,
@@ -395,16 +447,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     child: Text(
                       "Sign In",
-                      style: TextStyle(
+                      style: GoogleFonts.beVietnamPro(
                         color: Colors.deepPurple.shade400,
                         fontWeight: FontWeight.w600,
+                        fontSize: 14
                       ),
                     ),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 6.5),
             ],
           ),
         ),
@@ -440,13 +493,15 @@ class _SignUpPageState extends State<SignUpPage> {
             border: Border.all(color: Colors.grey.shade300),
           ),
           child: TextField(
+
             controller: controller,
             obscureText: isPassword,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 13,horizontal: 16),
               prefixIcon: icon != null ? Icon(icon) : null,
               suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
               hintText: hint,
-              hintStyle: GoogleFonts.beVietnamPro(fontSize: 14),
+              hintStyle: GoogleFonts.beVietnamPro(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF6F6F73)),
               border: InputBorder.none,
             ),
           ),
@@ -465,7 +520,18 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [icon, const SizedBox(width: 8), Text(text)],
+        children: [
+          icon,
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: GoogleFonts.beVietnamPro(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF262626),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -29,7 +29,10 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHeader(title: "Settings"),
+            Padding(
+              padding: const EdgeInsets.only(top: 18.0),
+              child: CommonHeader(title: "Settings"),
+            ),
 
             Padding(
               padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
@@ -67,8 +70,8 @@ class _SettingPageState extends State<SettingPage> {
                               'Jack Rob',
                               style: const TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2E2E32),
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -76,7 +79,8 @@ class _SettingPageState extends State<SettingPage> {
                               'jackrob187@gmail.com',
                               style: const TextStyle(
                                 color: Color(0xFF6A6B73),
-                                fontSize: 13,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ],
@@ -132,16 +136,19 @@ class _SettingPageState extends State<SettingPage> {
                           Expanded(
                             child: Text(
                               "Language",
-                              style: GoogleFonts.beVietnamPro(fontSize: 16),
+                              style: GoogleFonts.beVietnamPro(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF252526),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
 
-                    const SizedBox(height: 10),
                     Divider(color: Colors.grey.shade300),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
 
                     GestureDetector(
                       onTap: () {
@@ -164,6 +171,7 @@ class _SettingPageState extends State<SettingPage> {
 
                             style: GoogleFonts.beVietnamPro(
                               fontSize: 16,
+                              fontWeight: FontWeight.w400,
                               color: Colors.red,
                             ),
                           ),
@@ -208,7 +216,7 @@ void _showDeleteDialog(BuildContext context) {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
 
               // Title
               Text(
@@ -230,7 +238,7 @@ void _showDeleteDialog(BuildContext context) {
                   color: const Color(0xFF252526),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
 
               // Action Buttons
               Row(
@@ -262,6 +270,7 @@ void _showDeleteDialog(BuildContext context) {
                             'Yes',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.beVietnamPro(
+                              fontSize: 14,
                               color: const Color(0xFFFF3D00),
                               fontWeight: FontWeight.w600,
                             ),
@@ -287,6 +296,7 @@ void _showDeleteDialog(BuildContext context) {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.beVietnamPro(
                             color: Colors.white,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

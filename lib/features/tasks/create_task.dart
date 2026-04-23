@@ -22,171 +22,195 @@ class _CreateTaskState extends State<CreateTask> {
       backgroundColor: const Color(0xFFFFFFFF),
 
       body: SafeArea(
-        child: Column(
-          children: [
-            const CommonHeader(title: 'Create Task'),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 18.0),
+          child: Column(
+            children: [
+              const CommonHeader(title: 'Create Task'),
+              SizedBox(height: 24,),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
 
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-
-                            // Add Task
-                            Text(
-                              "Task Title",
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 14,
-                                color: const Color(0xFF6F6F73),
-                              ),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // Task Field
-                            _buildBox(
-                              child: TextField(
-                                controller: _taskTitleController,
-                                decoration: InputDecoration(
-                                  hintText: "  e.g. Interview",
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                  ),
-
-                                  hintStyle: GoogleFonts.beVietnamPro(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  border: InputBorder.none,
+                              // Add Task
+                              Text(
+                                "Task Title",
+                                style: GoogleFonts.beVietnamPro(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF6F6F73),
                                 ),
                               ),
-                            ),
 
-                            const SizedBox(height: 10),
+                              const SizedBox(height: 6),
 
-                            // Description
-                            Text(
-                              "Description",
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 14,
-                                color: const Color(0xFF6F6F73),
-                              ),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            _buildBox(
-                              child: TextField(
-                                controller: _descriptionController,
-                                decoration: InputDecoration(
-                                  hintText: "  e.g. UI/UX interview ",
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                  ),
-
-                                  hintStyle: GoogleFonts.beVietnamPro(
-                                    fontSize: 14,
+                              // Task Field
+                              _buildBox(
+                                child: TextField(
+                                  style: GoogleFonts.beVietnamPro(
+                                    color: Color(0xFF6F6F73),
                                     fontWeight: FontWeight.w600,
+                                    fontSize: 14
+
                                   ),
-                                  border: InputBorder.none,
+                                  controller: _taskTitleController,
+                                  decoration: InputDecoration(
+
+                                    hintText: "  e.g. Interview",
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+
+                                    hintStyle: GoogleFonts.beVietnamPro(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF262626)
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            const SizedBox(height: 10),
+                              const SizedBox(height: 14),
 
-                            // Due Date
-                            Text(
-                              "Due Date",
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 14,
-                                color: const Color(0xFF6F6F73),
-                              ),
-                            ),
+                              // Description
+                              Text(
+                                "Description",
+                                style: GoogleFonts.beVietnamPro(
+                                  color: Color(0xFF6F6F73),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14
 
-                            const SizedBox(height: 10),
-
-                            _buildBox(
-                              child: TextField(
-                                controller: _dateController,
-                                readOnly: true,
-                                onTap: () => _selectDate(context),
-                                decoration: InputDecoration(
-                                  prefixIcon: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.date_range_outlined),
-                                  ),
-                                  prefixIconConstraints: const BoxConstraints(
-                                    minHeight: 20,
-                                    maxWidth: 20,
-                                  ),
-                                  hintText: "    dd/mm/yyyy",
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 10,
-                                  ),
-
-                                  hintStyle: GoogleFonts.beVietnamPro(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 20),
-                          ],
                         ),
-                      ),
-                    ),
-
-                    // SAVE BUTTON (FIXED BOTTOM)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff7A49A5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                          child: Text(
-                            'Save',
-                            style: GoogleFonts.beVietnamPro(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
+
+                              const SizedBox(height: 6),
+
+                              _buildBox(
+
+                                child: TextField(
+                                  style: GoogleFonts.beVietnamPro(
+                                      color: Color(0xFF6F6F73),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14
+
+                                  ),                                  controller: _descriptionController,
+                                  decoration: InputDecoration(
+                                    hintText: "  e.g. UI/UX interview ",
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+
+                                    hintStyle: GoogleFonts.beVietnamPro(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 14),
+
+                              // Due Date
+                              Text(
+                                "Due Date",
+                                style: GoogleFonts.beVietnamPro(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF6F6F73),
+                                ),
+                              ),
+
+                              const SizedBox(height: 6),
+
+                              _buildBox(
+                                child: TextField(
+                                  style: GoogleFonts.beVietnamPro(
+                                      color: Color(0xFF6F6F73),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14
+
+                                  ),                                  controller: _dateController,
+                                  readOnly: true,
+                                  onTap: () => _selectDate(context),
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.date_range_outlined),
+                                    ),
+                                    prefixIconConstraints: const BoxConstraints(
+                                      minHeight: 20,
+                                      maxWidth: 20,
+                                    ),
+                                    hintText: "    dd/mm/yyyy",
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 10,
+                                    ),
+
+                                    hintStyle: GoogleFonts.beVietnamPro(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
+                            ],
                           ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      // SAVE BUTTON (FIXED BOTTOM)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff7A49A5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            ),
+                            child: Text(
+                              'Save',
+                              style: GoogleFonts.beVietnamPro(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

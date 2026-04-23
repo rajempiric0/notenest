@@ -57,13 +57,12 @@ class _SplashscreenState extends State<Splashscreen> {
               semanticsLabel: 'Company Logo',
             ),
             Text(
-                'NoteNest',
-                style: GoogleFonts.beVietnamPro(
-                  fontSize: 32,
-                  color: Color(0xFFFFFFFF),
-                  fontWeight: FontWeight.w700,
-                ),
-
+              'NoteNest',
+              style: GoogleFonts.beVietnamPro(
+                fontSize: 32,
+                color: Color(0xFFFFFFFF),
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),

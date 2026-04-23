@@ -35,9 +35,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
       body: SafeArea(
         child: Column(
           children: [
-            CommonHeader(title: 'Profile Details'),
             Padding(
-              padding: const EdgeInsets.only(top: 28, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 18.0),
+              child: CommonHeader(title: 'Profile Details'),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 35, left: 20, right: 20),
               child: Stack(
                 children: [
                   Container(
@@ -78,10 +81,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
 
                   _buildBox(
                     child: TextField(
+                      style: GoogleFonts.beVietnamPro(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFF6F6F73),
+                      ),
+
                       controller: _firstNameController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -104,10 +113,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
 
                   _buildBox(
                     child: TextField(
+                      style: GoogleFonts.beVietnamPro(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFF6F6F73),
+                      ),
                       controller: _lastNameController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -130,10 +144,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
 
                   _buildBox(
                     child: TextField(
+                      style: GoogleFonts.beVietnamPro(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFF6F6F73),
+                      ),
+
                       controller: _emailController,
                       decoration: InputDecoration(
                         hintText: "jackrob187@gmail.com",
@@ -198,141 +218,5 @@ Widget _buildBox({required child}) {
       border: Border.all(color: Color(0xFFE2E2E2)),
     ),
     child: child,
-  );
-}
-
-Widget _socialButton(Widget icon, String text) {
-  return Container(
-    height: 50,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(25),
-      border: Border.all(color: Colors.grey.shade300),
-      color: Colors.white,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [icon, const SizedBox(width: 8), Text(text)],
-    ),
-  );
-}
-
-void _showDeleteDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        backgroundColor: Color(0xFFFFFFFF), // Your desired color
-        surfaceTintColor: Color(0xFFFFFFFF),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min, // Wrap content height
-
-            children: [
-              // Trash Icon with Circular Background
-              Container(
-                height: 101,
-                width: 101,
-                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
-                child: SvgPicture.asset(
-                  'assets/homepage/delete_task.svg',
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Title
-              Text(
-                'Delete Account',
-                style: GoogleFonts.beVietnamPro(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF252526),
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              // Subtitle
-              Text(
-                'Are you sure you want to delete this account? All your data will be erased.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.beVietnamPro(
-                  fontSize: 14,
-                  color: const Color(0xFF252526),
-                ),
-              ),
-              const SizedBox(height: 30),
-
-              // Action Buttons
-              Row(
-                children: [
-                  // Yes, Delete Button
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        // Add your delete logic here
-                        Navigator.pop(context); // Close dialog
-                      },
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpPage(),
-                            ),
-                            (route) => false,
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFFFF3D00)),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Text(
-                            'Yes, Delete',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.beVietnamPro(
-                              color: const Color(0xFFFF3D00),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-
-                  // No, Keep it Button
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF794098),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Text(
-                          'No, Keep it',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.beVietnamPro(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    },
   );
 }

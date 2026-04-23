@@ -11,7 +11,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController controller = PageController();
+  final PageController imageController = PageController();
   int currentIndex = 0;
 
   List<OnboardingModel> screens = [
@@ -39,15 +39,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void nextPage() {
     if (currentIndex == screens.length - 1) {
-      // Navigate to home
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
       );
     } else {
-      controller.nextPage(
+      imageController.nextPage(
         duration: Duration(milliseconds: 300),
-        curve: Curves.ease,
+        curve: Curves.easeInOut,
       );
     }
   }
@@ -70,11 +69,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-       // toolbarHeight: 100,
+        toolbarHeight: 100,
         backgroundColor: Colors.white,
         leadingWidth: 60,
-
         leading: currentIndex > 0
             ? Padding(
                 padding: EdgeInsets.only(left: 20, top: 18),
@@ -89,18 +86,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: IconButton(
                       onPressed: () {
                         if (currentIndex > 0) {
-                          //If Page is on 2 onboarding then  show button
-                          controller.previousPage(
+                          final prevIndex = currentIndex - 1;
+
+                          imageController.animateToPage(
+                            prevIndex,
                             duration: Duration(milliseconds: 300),
                             curve: Curves.easeInOut,
                           );
+
+                          setState(() => currentIndex = prevIndex);
                         }
                       },
-                      icon: (Icon(
+                      icon: Icon(
                         Icons.arrow_back_ios_new_outlined,
                         color: Color(0xFF252526),
                         size: 15,
-                      )),
+                      ),
                     ),
                   ),
                 ),
@@ -121,7 +122,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 style: GoogleFonts.beVietnamPro(
                   color: Color(0xFF6F6F73),
                   fontSize: 18,
-                  fontWeight: FontWeight.w400
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -133,9 +134,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Center(
           child: Column(
             children: [
+              const SizedBox(height: 51),
+
               Expanded(
                 child: PageView.builder(
-                  controller: controller,
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: imageController,
                   itemCount: screens.length,
                   onPageChanged: (index) {
                     setState(() => currentIndex = index);
@@ -144,71 +148,66 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     final data = screens[index];
 
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: 59,
-                              ),
-                              child: Image.asset(
-                                data.image as String,
-                                width: 335,
-                                height: 335,
-                              ),
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(
-                                screens.length,
-                                (dotIndex) => buildDot(dotIndex),
-                              ),
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 32),
-                            child: Text(
-                              data.title,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Text(
-                              data.subtitle,
-                              textAlign: TextAlign.center,
-
-                              style: GoogleFonts.beVietnamPro(fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: Color(0xFF6F6F73),
-                              ),
-                            ),
-                          ),
-                        ],
+                      padding: const EdgeInsets.only(
+                        top: 51,
+                        left: 20,
+                        right: 20,
                       ),
+                      child: Image.asset(data.image as String),
                     );
                   },
                 ),
               ),
 
-              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(top: 40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    screens.length,
+                    (dotIndex) => buildDot(dotIndex),
+                  ),
+                ),
+              ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 64),
+                      child: Text(
+                        screens[currentIndex].title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.beVietnamPro(
+                          fontSize: 24,
+                          color: Color(0xFF262626),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 24),
+                      child: Text(
+                        screens[currentIndex].subtitle,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.beVietnamPro(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: Color(0xFF6F6F73),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 6,
+                ),
                 child: ElevatedButton(
                   onPressed: nextPage,
                   style: ElevatedButton.styleFrom(
@@ -218,7 +217,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: Text(
@@ -234,7 +232,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
