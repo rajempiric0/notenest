@@ -20,7 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 62, left: 20),
+              padding: const EdgeInsets.only(top: 36, left: 20),
               child: Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -103,16 +103,14 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 28, left: 20, right: 20),
-              child: Expanded(
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.topCenter,
-                  child: Image.asset(
-                    'assets/setting/person_image.png',
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.contain,
-                  ),
+              child: Container(
+                width: double.infinity,
+                alignment: Alignment.topCenter,
+                child: Image.asset(
+                  'assets/setting/person_image.png',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
@@ -130,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
 
                   _buildBox(
                     child: Padding(
@@ -159,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
                   _buildBox(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -187,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
                   _buildBox(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -221,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const Spacer(),
 
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8),
               child: GestureDetector(
                 onTap: () {
                   _showDeleteDialog(context);
@@ -274,7 +272,7 @@ void _showDeleteDialog(BuildContext context) {
         surfaceTintColor: Color(0xFFFFFFFF),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
           child: Column(
             mainAxisSize: MainAxisSize.min, // Wrap content height
 
@@ -291,7 +289,7 @@ void _showDeleteDialog(BuildContext context) {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 28),
 
               // Title
               Text(
@@ -302,7 +300,7 @@ void _showDeleteDialog(BuildContext context) {
                   color: const Color(0xFF252526),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
 
               // Subtitle
               Text(
@@ -310,10 +308,11 @@ void _showDeleteDialog(BuildContext context) {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.beVietnamPro(
                   fontSize: 14,
+                  fontWeight: FontWeight.w400,
                   color: const Color(0xFF252526),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 28),
 
               // Action Buttons
               Row(
@@ -345,6 +344,7 @@ void _showDeleteDialog(BuildContext context) {
                             'Yes, Delete',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.beVietnamPro(
+                              fontSize: 14,
                               color: const Color(0xFFFF3D00),
                               fontWeight: FontWeight.w600,
                             ),
@@ -369,6 +369,7 @@ void _showDeleteDialog(BuildContext context) {
                           'No, Keep it',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.beVietnamPro(
+                            fontSize: 14,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                           ),

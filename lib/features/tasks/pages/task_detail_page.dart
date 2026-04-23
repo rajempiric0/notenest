@@ -73,15 +73,20 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           border: Border.all(color: Colors.transparent),
                         ),
                         child: InkWell(
-                          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>EditTaskPage()));},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditTaskPage(),
+                              ),
+                            );
+                          },
                           child: Center(
-
                             child: SvgPicture.asset(
                               'assets/homepage/edit.svg',
                               height: 24,
                               width: 24,
                               fit: BoxFit.contain,
-                              color: Colors.black87,
                             ),
                           ),
                         ),
@@ -93,87 +98,106 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              width: double.infinity,
-              height: 290,
-              decoration: BoxDecoration(
-                color: Color(0xFFF7F7F7),
-                borderRadius: BorderRadius.circular(14),
-              ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              child: Container(
 
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Task Title',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF6F6F73),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFF7F7F7),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0, top: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 14),
+                      Text(
+                        'Task Title',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF6F6F73),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Interview',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF262626),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 10),
+
+                      Text(
+                        'Interview',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF262626),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Description',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF6F6F73),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                      const SizedBox(height: 14),
+
+                      Text(
+                        'Description',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF6F6F73),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'UI/UX interview',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF262626),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 10),
+
+                      Text(
+                        'UI/UX interview',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF262626),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Created Date',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF6F6F73),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                      const SizedBox(height: 14),
+
+                      Text(
+                        'Created Date',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF6F6F73),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '10/04/2026',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF262626),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 10),
+
+                      Text(
+                        '10/04/2026',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF262626),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Due Date',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF6F6F73),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                      const SizedBox(height: 14),
+
+                      Text(
+                        'Due Date',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF6F6F73),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '13/04/2026\n',
-                      style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF262626),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 10),
+
+                      Text(
+                        '13/04/2026\n',
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF262626),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+
+
+
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -181,10 +205,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           const Spacer(),
 
           Padding(
-              padding: const EdgeInsets.only(left:20,right:20,bottom: 40),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
             child: GestureDetector(
               onTap: () {
-
                 _showDeleteDialog(context);
               },
               child: Container(
@@ -206,35 +229,37 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               ),
             ),
           ),
-
         ],
       ),
     );
   }
 }
+
 void _showDeleteDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        backgroundColor: Color(0xFFFFFFFF), // Your desired color
+        surfaceTintColor: Color(0xFFFFFFFF),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min, // Wrap content height
+
             children: [
               // Trash Icon with Circular Background
               Container(
                 height: 101,
                 width: 101,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-
+                decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+                child: SvgPicture.asset(
+                  'assets/homepage/delete_task.svg',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
                 ),
-                child: SvgPicture.asset('assets/homepage/delete_task.svg',width: 100,height: 100,fit: BoxFit.contain),
-
               ),
               const SizedBox(height: 24),
 
@@ -254,7 +279,8 @@ void _showDeleteDialog(BuildContext context) {
                 'Are you sure you want to delete this Task?',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.beVietnamPro(
-                  fontSize: 14,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
                   color: const Color(0xFF252526),
                 ),
               ),
@@ -271,7 +297,12 @@ void _showDeleteDialog(BuildContext context) {
                         Navigator.pop(context); // Close dialog
                       },
                       child: InkWell(
-                        onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));},
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
@@ -283,6 +314,7 @@ void _showDeleteDialog(BuildContext context) {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.beVietnamPro(
                               color: const Color(0xFFFF3D00),
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -307,6 +339,7 @@ void _showDeleteDialog(BuildContext context) {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.beVietnamPro(
                             color: Colors.white,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -322,4 +355,3 @@ void _showDeleteDialog(BuildContext context) {
     },
   );
 }
-

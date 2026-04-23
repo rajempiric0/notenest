@@ -11,10 +11,15 @@ class EditTaskPage extends StatefulWidget {
 }
 
 class _EditTaskPageState extends State<EditTaskPage> {
-  late final TextEditingController _taskTitleController =
-  TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  late final TextEditingController _taskTitleController = TextEditingController(
+    text: 'Interview',
+  );
+  final TextEditingController _descriptionController = TextEditingController(
+    text: 'UI/UX Interview',
+  );
+  final TextEditingController _dateController = TextEditingController(
+    text: '   13/04/2026',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -100,17 +105,14 @@ class _EditTaskPageState extends State<EditTaskPage> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
               child: Column(
                 children: [
-
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 10),
-
                           // Add Task
                           Text(
                             "Task Title",
@@ -120,7 +122,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 6),
 
                           // Task Field
                           _buildBox(
@@ -128,7 +130,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
                               controller: _taskTitleController,
                               decoration: InputDecoration(
                                 hintText: "  e.g. Interview",
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
 
                                 hintStyle: GoogleFonts.beVietnamPro(
                                   fontSize: 14,
@@ -139,7 +143,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 14),
 
                           // Description
                           Text(
@@ -150,14 +154,16 @@ class _EditTaskPageState extends State<EditTaskPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 6),
 
                           _buildBox(
                             child: TextField(
                               controller: _descriptionController,
                               decoration: InputDecoration(
                                 hintText: "  e.g. UI/UX interview ",
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
                                 hintStyle: GoogleFonts.beVietnamPro(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -167,7 +173,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 14),
 
                           // Due Date
                           Text(
@@ -178,14 +184,22 @@ class _EditTaskPageState extends State<EditTaskPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 6),
 
                           _buildBox(
                             child: TextField(
+                              style: GoogleFonts.beVietnamPro(
+                                fontSize: 16,
+                                color: Color(0xFF262626),
+                              ),
                               controller: _dateController,
                               readOnly: true,
                               onTap: () => _selectDate(context),
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 22,
+                                ),
                                 prefixIcon: const Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Icon(Icons.date_range_outlined),
@@ -194,21 +208,14 @@ class _EditTaskPageState extends State<EditTaskPage> {
                                   minHeight: 20,
                                   maxWidth: 20,
                                 ),
-                                hintText: "    dd/mm/yyyy",
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
 
-                                hintStyle: GoogleFonts.beVietnamPro(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
                                 border: InputBorder.none,
                               ),
                             ),
                           ),
 
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 14),
                         ],
-
                       ),
                     ),
                   ),
@@ -218,7 +225,12 @@ class _EditTaskPageState extends State<EditTaskPage> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomePage()));},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff7A49A5),
                           shape: RoundedRectangleBorder(
@@ -236,15 +248,12 @@ class _EditTaskPageState extends State<EditTaskPage> {
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
           ),
         ],
       ),
-
     );
   }
 
@@ -261,22 +270,19 @@ class _EditTaskPageState extends State<EditTaskPage> {
 
   void _showDeleteDialog(BuildContext context) {
     showDialog(
-
       context: context,
       builder: (BuildContext context) {
         return Dialog(
           backgroundColor: Color(0xFFFFFFFF), // Your desired color
           surfaceTintColor: Color(0xFFFFFFFF),
           shape: RoundedRectangleBorder(
-            
             borderRadius: BorderRadius.circular(24),
           ),
           child: Padding(
-            
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             child: Column(
               mainAxisSize: MainAxisSize.min, // Wrap content height
-              
+
               children: [
                 // Trash Icon with Circular Background
                 Container(
@@ -308,7 +314,8 @@ class _EditTaskPageState extends State<EditTaskPage> {
                   'Are you sure you want to delete this Task?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.beVietnamPro(
-                    fontSize: 14,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
                     color: const Color(0xFF252526),
                   ),
                 ),
@@ -346,6 +353,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.beVietnamPro(
                                 color: const Color(0xFFFF3D00),
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -370,6 +378,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.beVietnamPro(
                               color: Colors.white,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -386,8 +395,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
     );
   }
 
-
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -399,7 +406,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
     if (picked != null) {
       setState(() {
         _dateController.text =
-        "   ${picked.day}/${picked.month}/${picked.year}";
+            "   ${picked.day}/${picked.month}/${picked.year}";
       });
     }
   }

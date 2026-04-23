@@ -1,5 +1,6 @@
 import 'package:NoteNest/features/auth/reset_password.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -29,11 +30,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 18),
 
                 Row(
                   children: [
@@ -56,7 +57,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ],
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -67,13 +68,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       "Forgot Password",
                       style: GoogleFonts.beVietnamPro(
                         fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF262626),
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
 
                 Center(
                   child: Text(
@@ -86,7 +88,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
 
                 Row(
                   children: [
@@ -105,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ],
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 4),
 
                 Container(
                   //Email Container
@@ -116,11 +118,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     border: Border.all(color: Colors.grey.shade300),
                   ),
                   child: TextField(
+                    style: GoogleFonts.beVietnamPro(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF6F6F73),
+                    ),
                     controller: emailController,
                     decoration: InputDecoration(
-                      icon: const Icon(Icons.mail_outline),
+                      contentPadding: EdgeInsets.symmetric(vertical: 13.5),
+                      icon: SvgPicture.asset(
+                        'assets/auth/sms.svg',
+                        width: 22,
+                        height: 22,
+                        fit: BoxFit.cover,
+                      ),
                       hintText: "e.g. jackrob187@gmail.com",
-                      hintStyle: GoogleFonts.beVietnamPro(fontSize: 14),
+                      hintStyle: GoogleFonts.beVietnamPro(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF6F6F73),
+                      ),
                       border: InputBorder.none,
                     ),
                   ),
@@ -152,7 +169,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
               ],
             ),
           ),

@@ -29,34 +29,46 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                'assets/logo/logo_auth.svg',
-                width: 100,
-                height: 100,
-              ),
-
-              const SizedBox(height: 20),
-
-              // Title
-              const Text(
-                "Welcome Back!",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 18.0,
+                  left: 117,
+                  right: 117,
+                ),
+                child: SvgPicture.asset(
+                  'assets/logo/logo_auth.svg',
+                  width: 100,
+                  height: 100,
                 ),
               ),
 
-              const SizedBox(height: 10),
-
-              // Subtitle
-              const Text(
-                "Sign in to continue managing your tasks and stay organized.",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey, fontSize: 14),
+              // Title
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Text(
+                  "Welcome Back!",
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF262626),
+                  ),
+                ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 8),
+
+              // Subtitle
+              Text(
+                "Sign in to continue managing your tasks and stay organized.",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.beVietnamPro(
+                  color: const Color(0xFF6F6F73),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+
+              const SizedBox(height: 24),
 
               // Email Label
               Align(
@@ -68,11 +80,12 @@ class _LoginPageState extends State<LoginPage> {
                   style: GoogleFonts.beVietnamPro(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
+                    color: Color(0xFF262626),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 4),
               //Email Container
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -82,8 +95,18 @@ class _LoginPageState extends State<LoginPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF6F6F73),
+                  ),
                   controller: emailController,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 13,
+                    ),
+
                     icon: SvgPicture.asset(
                       'assets/auth/sms.svg',
                       width: 22,
@@ -92,24 +115,28 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     hintText: "e.g. jackrob187@gmail.com",
                     border: InputBorder.none,
+                    hintStyle: GoogleFonts.beVietnamPro(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF6F6F73),
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
 
-              // Password Label
               Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 0),
                     child: Text(
-                      //Email
                       "Password",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.beVietnamPro(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
+                        color: Color(0xFF262626),
                       ),
                     ),
                   ),
@@ -127,10 +154,19 @@ class _LoginPageState extends State<LoginPage> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
+                  style: GoogleFonts.beVietnamPro(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF6F6F73),
+                  ),
                   obscureText: _isObscured,
 
                   controller: passwordController,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 13,
+                    ),
                     icon: SvgPicture.asset(
                       'assets/auth/lock.svg',
                       width: 22,
@@ -142,8 +178,10 @@ class _LoginPageState extends State<LoginPage> {
 
                     hintStyle: GoogleFonts.beVietnamPro(
                       fontSize: 14,
-                      color: Color(0xFF7D7D80),
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF6F6F73),
                     ),
+
                     border: InputBorder.none,
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -159,68 +197,85 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
-
               // Forgot Password
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ForgotPasswordPage(),
+              Padding(
+                padding: const EdgeInsets.only(top: 17.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ForgotPasswordPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Forgot password?",
+                      style: GoogleFonts.beVietnamPro(
+                        color: Color(0xFF7A4E9E),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    "Forgot password?",
-                    style: TextStyle(color: Color(0xFF7A4E9E)),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // Login Button
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF7A4E9E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
-                  },
-                  child: const Text(
-                    "Log In",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+
+              // Login Button
+              Padding(
+                padding: const EdgeInsets.only(top: 25.5),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF7A4E9E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    },
+                    child: Text(
+                      "Log In",
+                      style: GoogleFonts.beVietnamPro(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
               // Divider
               Row(
-                children: const [
-                  Expanded(child: Divider()),
+                children: [
+                  const Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("Or continue with"),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "Or continue with",
+                      style: GoogleFonts.beVietnamPro(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        color: const Color(0xFF6F6F73),
+                      ),
+                    ),
                   ),
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
               // Social Buttons
               Row(
@@ -244,29 +299,38 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              const SizedBox(height: 30),
-
               // Sign Up
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don’t have an account? "),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Color(0xFF7A4E9E),
-                        fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(top: 84.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don’t have an account? ",
+                      style: GoogleFonts.beVietnamPro(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFF6F6F73),
                       ),
                     ),
-                  ),
-                ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                        );
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: GoogleFonts.beVietnamPro(
+                          color: Color(0xFF7A4E9E),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 20),
@@ -287,7 +351,18 @@ class _LoginPageState extends State<LoginPage> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [icon, const SizedBox(width: 8), Text(text)],
+        children: [
+          icon,
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: GoogleFonts.beVietnamPro(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF262626),
+            ),
+          ),
+        ],
       ),
     );
   }

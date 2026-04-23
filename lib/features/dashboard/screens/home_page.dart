@@ -85,26 +85,27 @@ class _HomePageState extends State<HomePage> {
           children: [
             // TOP SECTION
             Padding(
-              padding: const EdgeInsets.only(top: 62, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 18, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello, "Jack" 👋',
+                    'Hello, Jack 👋',
                     style: GoogleFonts.beVietnamPro(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 4),
                   Text(
                     "Let’s get things done today.",
-                    style: GoogleFonts.beVietnamPro(
+                    style: GoogleFonts.mukta(
                       fontSize: 16,
+                      fontWeight: FontWeight.w400,
                       color: const Color(0xFF777777),
                     ),
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 20),
 
                   // Search
                   Container(
@@ -123,12 +124,19 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: TextField(
+                            style: GoogleFonts.beVietnamPro(
+                              color: const Color(0xFF777777),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                             controller: _searchController,
                             decoration: InputDecoration(
                               hintText: 'Search tasks..',
                               border: InputBorder.none,
                               hintStyle: GoogleFonts.beVietnamPro(
                                 color: const Color(0xFF777777),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
@@ -137,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 20),
 
                   // Filters
                   Row(
@@ -153,7 +161,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 24),
 
             // CONTENT
             Expanded(
@@ -186,128 +194,158 @@ class _HomePageState extends State<HomePage> {
       },
       child: Container(
         // margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(width: 1, color: const Color(0xFFE2E2E2)),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  task.title, // Fixed: use task.title instead of hardcoded string
-                  style: GoogleFonts.beVietnamPro(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: const Color(0xFF262626),
-                  ),
-                ),
-                Row(
-                  // Added const here
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12, left: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title Row
+              Padding(
+                padding: const EdgeInsets.only(right: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(
-                      'assets/homepage/trash.svg',
-                      height: 22,
-                      width: 22,
-                      fit: BoxFit.contain,
-                      color: Color(0xFFFF3D00),
+                    Text(
+                      task.title, // Fixed: use task.title instead of hardcoded string
+                      style: GoogleFonts.beVietnamPro(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: const Color(0xFF262626),
+                      ),
                     ),
-                    SizedBox(width: 10),
-                    SvgPicture.asset(
-                      'assets/homepage/edit.svg',
-                      height: 22,
-                      width: 22,
-                      fit: BoxFit.contain,
-                      color: Color(0xFF794098),
+                    Row(
+                      // Added const here
+                      children: [
+                        SvgPicture.asset(
+                          'assets/homepage/trash.svg',
+                          height: 22,
+                          width: 22,
+                          fit: BoxFit.contain,
+                          color: Color(0xFFFF3D00),
+                        ),
+                        SizedBox(width: 10),
+                        SvgPicture.asset(
+                          'assets/homepage/edit.svg',
+                          height: 22,
+                          width: 22,
+                          fit: BoxFit.contain,
+                          color: Color(0xFF794098),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-
-            const SizedBox(height: 5),
-
-            Text(
-              task.subtitle, // Fixed: use task.subtitle instead of hardcoded string
-              style: GoogleFonts.beVietnamPro(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                color: const Color(0xFF6F6F73),
               ),
-            ),
 
-            const SizedBox(height: 8),
+              const SizedBox(height: 5),
 
-            Text(
-              "Due: ${task.date}", // Fixed: use task.date
-              style: GoogleFonts.beVietnamPro(
-                color: const Color(0xFF6F6F73),
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+              Column(
+                children: [
+                  Text(
+                    task.subtitle,
+                    style: GoogleFonts.beVietnamPro(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: const Color(0xFF6F6F73),
+                    ),
+                  ),
+                ],
               ),
-            ),
 
-            Align(
-              alignment: Alignment.bottomRight,
-              child: task.isCompleted
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade50,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        "Completed",
-                        style: GoogleFonts.beVietnamPro(
-                          color: Colors.blue,
-                          fontSize: 12,
-                        ),
-                      ),
-                    )
-                  : GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          task.isCompleted = true;
-                        });
-                      },
-                      child: Container(
-                        height: 35,
-                        width: 170,
-                        decoration: BoxDecoration(
-                          color: Colors.green[50],
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/homepage/complete.svg',
-                              width: 16,
-                              height: 16,
-                              fit: BoxFit.contain,
+              Row(
+                children: [
+                  Text(
+                    "Due: ${task.date}", // Fixed: use task.date
+                    style: GoogleFonts.beVietnamPro(
+                      color: const Color(0xFF6F6F73),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  task.isCompleted
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 148.0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 9,
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              "Mark as completed",
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade50,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              "Completed",
                               style: GoogleFonts.beVietnamPro(
-                                color: Colors.green,
+                                color: Colors.blue,
                                 fontSize: 12,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ],
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              task.isCompleted = true;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 73, bottom: 4),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              height: 35,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: Colors.green[50],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/homepage/complete.svg',
+                                    width: 16,
+                                    height: 16,
+                                    fit: BoxFit.contain,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    "Mark as completed",
+                                    style: GoogleFonts.beVietnamPro(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-            ),
-          ],
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 20,
+                  left: 193,
+                  bottom: 12,
+                ),
+
+                child: Row(children: []),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -332,6 +370,7 @@ class _HomePageState extends State<HomePage> {
               'No Tasks Yet',
               style: GoogleFonts.beVietnamPro(
                 fontSize: 18,
+                color: Color(0xFF262626),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -342,6 +381,7 @@ class _HomePageState extends State<HomePage> {
               style: GoogleFonts.beVietnamPro(
                 fontSize: 14,
                 color: const Color(0xFF262626),
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
@@ -373,6 +413,7 @@ class _HomePageState extends State<HomePage> {
           style: GoogleFonts.beVietnamPro(
             color: isActive ? Colors.white : Colors.black87,
             fontWeight: FontWeight.w500,
+            fontSize: 14,
           ),
         ),
       ),
