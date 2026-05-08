@@ -1,7 +1,10 @@
-import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:NoteNest/features/setting/header.dart';
+import 'package:NoteNest/features/tasks/pages/task_controller.dart';
+import 'package:NoteNest/features/tasks/pages/task_detail_page.dart';
+import 'package:NoteNest/features/tasks/pages/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class CreateTask extends StatefulWidget {
   const CreateTask({super.key});
@@ -11,28 +14,26 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  late final TextEditingController _taskTitleController =
-      TextEditingController();
+  final TaskController controller= Get.find();
+  final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+  //DateTime? now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
-
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 18.0),
           child: Column(
             children: [
               const CommonHeader(title: 'Create Task'),
-              SizedBox(height: 24,),
+              SizedBox(height: 24),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       Expanded(
@@ -40,7 +41,6 @@ class _CreateTaskState extends State<CreateTask> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               // Add Task
                               Text(
                                 "Task Title",
@@ -52,28 +52,25 @@ class _CreateTaskState extends State<CreateTask> {
                               ),
 
                               const SizedBox(height: 6),
-
                               // Task Field
                               _buildBox(
                                 child: TextField(
                                   style: GoogleFonts.beVietnamPro(
-                                    color: Color(0xFF6F6F73),
+                                    color: Color(0xFF262626),
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 14
-
+                                    fontSize: 16,
                                   ),
                                   controller: _taskTitleController,
                                   decoration: InputDecoration(
-
-                                    hintText: "  e.g. Interview",
+                                    hintText: "e.g. Interview",
                                     contentPadding: EdgeInsets.symmetric(
                                       horizontal: 20,
                                     ),
 
                                     hintStyle: GoogleFonts.beVietnamPro(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      color: Color(0xFF262626)
+                                      color: Color(0xFF262626),
                                     ),
                                     border: InputBorder.none,
                                   ),
@@ -87,32 +84,31 @@ class _CreateTaskState extends State<CreateTask> {
                                 "Description",
                                 style: GoogleFonts.beVietnamPro(
                                   color: Color(0xFF6F6F73),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14
-
-                        ),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
                               ),
 
                               const SizedBox(height: 6),
 
                               _buildBox(
-
                                 child: TextField(
                                   style: GoogleFonts.beVietnamPro(
-                                      color: Color(0xFF6F6F73),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14
-
-                                  ),                                  controller: _descriptionController,
+                                    color: Color(0xFF262626),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                  controller: _descriptionController,
                                   decoration: InputDecoration(
-                                    hintText: "  e.g. UI/UX interview ",
+                                    hintText: "e.g. UI/UX interview ",
                                     contentPadding: EdgeInsets.symmetric(
                                       horizontal: 20,
                                     ),
 
                                     hintStyle: GoogleFonts.beVietnamPro(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w600,
+                                      color: Color(0xFF262626),
                                     ),
                                     border: InputBorder.none,
                                   ),
@@ -135,33 +131,30 @@ class _CreateTaskState extends State<CreateTask> {
 
                               _buildBox(
                                 child: TextField(
-                                  style: GoogleFonts.beVietnamPro(
-                                      color: Color(0xFF6F6F73),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14
-
-                                  ),                                  controller: _dateController,
+                                  style: TextStyle(
+                                    fontFamily: 'Switzer',
+                                    color: Color(0xFF262626),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                  controller: _dateController,
                                   readOnly: true,
                                   onTap: () => _selectDate(context),
                                   decoration: InputDecoration(
-                                    prefixIcon: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(Icons.date_range_outlined),
+                                    prefixIcon: Icon(Icons.date_range_outlined),
+
+                                    hintText: "dd/mm/yyyy",
+                                    contentPadding: EdgeInsets.only(
+                                      left: 20,
+                                      top: 13,
                                     ),
-                                    prefixIconConstraints: const BoxConstraints(
-                                      minHeight: 20,
-                                      maxWidth: 20,
-                                    ),
-                                    hintText: "    dd/mm/yyyy",
-                                    contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 10,
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Switzer',
+                                      color: Color(0xFF262626),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
                                     ),
 
-                                    hintStyle: GoogleFonts.beVietnamPro(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
                                     border: InputBorder.none,
                                   ),
                                 ),
@@ -181,13 +174,16 @@ class _CreateTaskState extends State<CreateTask> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePage(),
-                                ),
+
+                              final task = controller.addTask(
+                                title: _taskTitleController.text,
+                                description: _descriptionController.text,
+                                date: _dateController.text,
                               );
+
+                              Get.to(TaskDetailPage(), arguments: task.id);
                             },
+
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff7A49A5),
                               shape: RoundedRectangleBorder(
@@ -231,14 +227,13 @@ class _CreateTaskState extends State<CreateTask> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
     if (picked != null) {
       setState(() {
-        _dateController.text =
-            "    ${picked.day}/${picked.month}/${picked.year}";
+        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
       });
     }
   }

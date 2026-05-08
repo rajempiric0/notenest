@@ -1,6 +1,7 @@
 import 'package:NoteNest/features/onbording/splash_screen.dart';
+import 'package:NoteNest/features/tasks/pages/task_bindings.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'NoteNest',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MyScreen(),
+      initialBinding: TaskBindings(),
+
     );
   }
 }

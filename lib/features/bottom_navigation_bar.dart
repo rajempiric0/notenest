@@ -3,7 +3,7 @@ import 'package:NoteNest/features/tasks/create_task.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'dashboard/screens/home_page.dart';
+import 'dashboard/home_page.dart';
 
 class CustomBottomBar extends StatefulWidget {
   final int currentIndex;
@@ -64,7 +64,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         if (index == 0) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => HomePage()),
+            MaterialPageRoute(builder: (_) => HomePage(name: '',)),
           );
         } else {
           Navigator.push(
