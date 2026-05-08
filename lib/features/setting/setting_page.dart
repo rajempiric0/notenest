@@ -1,4 +1,4 @@
-import 'package:NoteNest/features/botom_navigation_bar.dart'
+import 'package:NoteNest/features/bottom_navigation_bar.dart'
     show CustomBottomBar;
 import 'package:NoteNest/features/setting/header.dart';
 import 'package:NoteNest/features/setting/language_page.dart';

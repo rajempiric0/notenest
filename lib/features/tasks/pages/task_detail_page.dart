@@ -1,241 +1,239 @@
-import 'package:NoteNest/features/dashboard/screens/home_page.dart';
+import 'package:NoteNest/features/dashboard/home_page.dart';
 import 'package:NoteNest/features/tasks/pages/edit_task_page.dart';
+import 'package:NoteNest/features/tasks/pages/task_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
-class TaskDetailPage extends StatefulWidget {
-  const TaskDetailPage({super.key});
+class TaskDetailPage extends StatelessWidget {
+  TaskDetailPage({super.key});
+  final TaskController controller = Get.find();
 
-  @override
-  State<TaskDetailPage> createState() => _TaskDetailPageState();
-}
-
-class _TaskDetailPageState extends State<TaskDetailPage> {
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    final int taskId = Get.arguments;
+    String simpleDate = "${now.day}/${now.month}/${now.year}";
+
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 62, left: 20),
-            child: Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                // Back Button
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    height: 44,
-                    width: 44,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFFE5E2E3),
-                        width: 2,
-                      ),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 24,
-                        color: Colors.black45,
-                      ),
-                    ),
-                  ),
-                ),
-                // Title
-                Center(
-                  child: Text(
-                    'Task Details',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.beVietnamPro(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
+      body: Obx(() {
+        final task = controller.getTaskById(taskId);
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 62, left: 20),
+              child: SingleChildScrollView(
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    // Back Button
+                    GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Get.offAll(HomePage());
                       },
                       child: Container(
                         height: 44,
                         width: 44,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.transparent),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFE5E2E3),
+                            width: 2,
+                          ),
                         ),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditTaskPage(),
+                        child: const Center(
+                          child: Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 24,
+                            color: Colors.black45,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Title
+                    Center(
+                      child: Text(
+                        'Task Details',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.beVietnamPro(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          height: 44,
+                          width: 44,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.transparent),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(EditTaskPage(),arguments: task?.id);
+                            },
+                            child: Center(
+                              child: SvgPicture.asset(
+                                'assets/homepage/edit.svg',
+                                height: 24,
+                                width: 24,
+                                fit: BoxFit.contain,
                               ),
-                            );
-                          },
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/homepage/edit.svg',
-                              height: 24,
-                              width: 24,
-                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
 
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: Container(
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                child: Container(
+                  width: double.infinity,
 
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0xFFF7F7F7),
-                  borderRadius: BorderRadius.circular(14),
-                ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF7F7F7),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
 
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, top: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 14),
-                      Text(
-                        'Task Title',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF6F6F73),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, top: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 14),
+                        Text(
+                          'Task Title',
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF6F6F73),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
-                      Text(
-                        'Interview',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          task!.title,
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF262626),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 14),
+                        const SizedBox(height: 14),
 
-                      Text(
-                        'Description',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF6F6F73),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                        Text(
+                          'Description',
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF6F6F73),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
-                      Text(
-                        'UI/UX interview',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          task.description,
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF262626),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 14),
+                        const SizedBox(height: 14),
 
-                      Text(
-                        'Created Date',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF6F6F73),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                        Text(
+                          'Created Date',
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF6F6F73),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
-                      Text(
-                        '10/04/2026',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          simpleDate,
+                          style: TextStyle(
+                            fontFamily: 'Switzer',
+                            color: Color(0xFF262626),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 14),
+                        const SizedBox(height: 14),
 
-                      Text(
-                        'Due Date',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF6F6F73),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                        Text(
+                          'Due Date',
+                          style: GoogleFonts.beVietnamPro(
+                            color: Color(0xFF6F6F73),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
-                      Text(
-                        '13/04/2026\n',
-                        style: GoogleFonts.beVietnamPro(
-                          color: Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          task.date,
+                          style: TextStyle(
+                            fontFamily: 'Switzer',
+                            color: Color(0xFF262626),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-
-
-
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const Spacer(),
+            const Spacer(),
 
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
-            child: GestureDetector(
-              onTap: () {
-                _showDeleteDialog(context);
-              },
-              child: Container(
-                width: double.infinity,
-                height: 48,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(color: const Color(0xFFFF3D00)),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "Delete Task",
-                  style: GoogleFonts.beVietnamPro(
-                    color: const Color(0xFFFF3D00),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+              child: GestureDetector(
+                onTap: () {
+                  _showDeleteDialog(context, taskId);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(color: const Color(0xFFFF3D00)),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Delete Task",
+                    style: GoogleFonts.beVietnamPro(
+                      color: const Color(0xFFFF3D00),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 }
 
-void _showDeleteDialog(BuildContext context) {
+final TaskController controller = Get.find<TaskController>();
+void _showDeleteDialog(BuildContext context, int taskId) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -294,14 +292,12 @@ void _showDeleteDialog(BuildContext context) {
                     child: GestureDetector(
                       onTap: () {
                         // Add your delete logic here
-                        Navigator.pop(context); // Close dialog
+                        Get.back(); // Close dialog
                       },
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
+                          controller.deleteTask(taskId);
+                          Get.offAll(HomePage());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -327,7 +323,7 @@ void _showDeleteDialog(BuildContext context) {
                   // No, Keep it Button
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Get.back(),
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(

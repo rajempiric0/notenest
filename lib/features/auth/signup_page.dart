@@ -1,10 +1,12 @@
 import 'package:NoteNest/features/auth/login_page.dart';
+import 'package:NoteNest/features/dashboard/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({super.key});
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -341,10 +343,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                    Get.to('/HomePage',arguments: 'raj');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF794098),
