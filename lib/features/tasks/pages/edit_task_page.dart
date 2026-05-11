@@ -6,7 +6,7 @@ import 'package:NoteNest/features/dashboard/home_page.dart';
 import 'package:get/get.dart';
 
 class EditTaskPage extends StatefulWidget {
-  EditTaskPage({super.key});
+   EditTaskPage({super.key});
   final TaskController controller = Get.find();
 
   @override
@@ -21,13 +21,12 @@ class _EditTaskPageState extends State<EditTaskPage> {
 
   int? taskId;
 
-
   @override
   void initState() {
     super.initState();
 
     taskId = Get.arguments as int?;
-   dynamic task = widget.controller.getTaskById(taskId);
+    dynamic task = widget.controller.getTaskById(taskId);
 
     taskTitleController = TextEditingController(
       text: task != null ? task.title : '',
@@ -37,9 +36,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
       text: task != null ? task.description : '',
     );
 
-    dateController = TextEditingController(
-      text: task != null ? task.date : '',
-    );
+    dateController = TextEditingController(text: task != null ? task.date : '');
   }
 
   @override
@@ -49,11 +46,14 @@ class _EditTaskPageState extends State<EditTaskPage> {
     dateController.dispose();
     super.dispose();
   }
+  final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
-      body: Column(
+      body: Form(
+        key: _formkey,
+        child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 62, left: 20),
@@ -64,7 +64,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
                 GestureDetector(
                   onTap: () {
                     Get.back();
-
                   },
                   child: Container(
                     height: 44,
@@ -103,7 +102,8 @@ class _EditTaskPageState extends State<EditTaskPage> {
 
                     child: GestureDetector(
                       onTap: () {
-                        _showDeleteDialog(context);
+                        Get.offAll(HomePage(),);
+                        _showDeleteDialog(context,taskId!);
                       },
                       child: Container(
                         height: 44,
@@ -122,7 +122,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
                         ),
                       ),
                     ),
-
                   ),
                 ),
               ],
@@ -151,18 +150,23 @@ class _EditTaskPageState extends State<EditTaskPage> {
 
                           // Task Field
                           _buildBox(
-                            child: TextField(
+                            child: TextFormField(
                               style: GoogleFonts.beVietnamPro(
                                 fontSize: 16,
                                 color: Color(0xFF262626),
                                 fontWeight: FontWeight.w600,
                               ),
                               controller: taskTitleController,
+                              validator: (value){
+                                if(value==null || value.trim().isEmpty){
+                                  return 'title is required';
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                   horizontal: 20,
                                 ),
-
 
                                 border: InputBorder.none,
                               ),
@@ -184,13 +188,19 @@ class _EditTaskPageState extends State<EditTaskPage> {
                           const SizedBox(height: 6),
 
                           _buildBox(
-                            child: TextField(
+                            child: TextFormField(
                               style: GoogleFonts.beVietnamPro(
                                 fontSize: 16,
                                 color: Color(0xFF262626),
                                 fontWeight: FontWeight.w600,
                               ),
                               controller: descriptionController,
+                              validator: (value){
+                                if(value==null || value.trim().isEmpty){
+                                  return 'description is required';
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                   horizontal: 20,
@@ -214,7 +224,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                           const SizedBox(height: 6),
 
                           _buildBox(
-                            child: TextField(
+                            child: TextFormField(
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -222,6 +232,12 @@ class _EditTaskPageState extends State<EditTaskPage> {
                                 color: Color(0xFF262626),
                               ),
                               controller: dateController,
+                              validator: (value){
+                                if(value==null || value.trim().isEmpty){
+                                  return 'date is required';
+                                }
+                                return null;
+                              },
                               readOnly: true,
                               onTap: () => _selectDate(context),
                               decoration: InputDecoration(
@@ -233,7 +249,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
                                   padding: EdgeInsets.only(left: 8.0),
                                   child: Icon(Icons.date_range_outlined),
                                 ),
-
 
                                 border: InputBorder.none,
                               ),
@@ -252,16 +267,19 @@ class _EditTaskPageState extends State<EditTaskPage> {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (taskId != null) {
-                            widget.controller.updateTask(
-                              taskId!,
-                              taskTitleController.text,
-                              descriptionController.text,
-                              dateController.text,
-                            );
+                          if (_formkey.currentState!.validate()) {
+                            if (taskId != null) {
+                              widget.controller.updateTask(
+                                taskId!,
+                                taskTitleController.text,
+                                descriptionController.text,
+                                dateController.text,
+                              );
+                            }
+
+                            Get.offAll(HomePage());
                           }
 
-                          Get.offAll(HomePage());
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff7A49A5),
@@ -286,10 +304,11 @@ class _EditTaskPageState extends State<EditTaskPage> {
           ),
         ],
       ),
+      ),
     );
   }
 
-  Widget _buildBox({required Widget child})  {
+  Widget _buildBox({required Widget child}) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFF7F7F7),
@@ -299,8 +318,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
       child: child,
     );
   }
+  final TaskController controller = Get.find<TaskController>();
 
-  void _showDeleteDialog(BuildContext context) {
+  void _showDeleteDialog(BuildContext context, int taskId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -365,12 +385,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
                         },
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
+                            controller.deleteTask(taskId);
+                            Get.offAll(HomePage());
+
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
@@ -428,16 +445,26 @@ class _EditTaskPageState extends State<EditTaskPage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    DateTime initialdate;
+    if (dateController.text.isNotEmpty) {
+      final parts = dateController.text.split('/');
+      initialdate = DateTime(
+        int.parse(parts[2]),
+        int.parse(parts[1]),
+        int.parse(parts[0]),
+      );
+    } else {
+      initialdate = DateTime.now();
+    }
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      initialDate: initialdate,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
     if (picked != null) {
-        dateController.text =
-            "   ${picked.day}/${picked.month}/${picked.year}";
+      dateController.text = "   ${picked.day}/${picked.month}/${picked.year}";
     }
   }
 }

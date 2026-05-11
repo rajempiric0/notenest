@@ -3,6 +3,14 @@ import 'package:NoteNest/features/tasks/pages/task_model.dart';
 
 class TaskController extends GetxController {
   final RxList<TaskModel> tasks = <TaskModel>[].obs;
+  var filteredTasks = <TaskModel>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    filteredTasks.assignAll(tasks);
+  }
+
   TaskModel addTask({
     required String title,
     required String description,
@@ -14,10 +22,12 @@ class TaskController extends GetxController {
       description: description,
       date: date,
     );
-
     tasks.add(task);
+    filteredTasks.assignAll(tasks);
+
     return task;
   }
+
 
   void updateTask(int id, String title, String description,String date) {
     int index = tasks.indexWhere((task) => task.id == id);
@@ -30,6 +40,23 @@ class TaskController extends GetxController {
       tasks.refresh();
     }
   }
+  void searchTask(String query) {
+    if (query.isEmpty) {
+      filteredTasks.assignAll(tasks);
+      return;
+    }
+
+    filteredTasks.assignAll(
+      tasks.where((task) {
+        final t = task.title.toLowerCase();
+        final d = task.description.toLowerCase();
+        final q = query.toLowerCase();
+
+        return t.contains(q) || d.contains(q);
+      }).toList(),
+    );
+  }
+
 
   TaskModel? getTaskById(int? id) {
     try {
@@ -39,8 +66,8 @@ class TaskController extends GetxController {
     }
   }
 
-
-  void deleteTask(int id) {
-    tasks.removeWhere((task)=>task.id==id);
+  void deleteTask(int taskId) {
+    tasks.removeWhere((task) => task.id == taskId);
+    filteredTasks.assignAll(tasks);
   }
 }

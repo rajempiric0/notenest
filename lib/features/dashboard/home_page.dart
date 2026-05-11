@@ -8,6 +8,8 @@ import '../tasks/pages/edit_task_page.dart';
 import '../tasks/pages/task_controller.dart';
 import '../tasks/pages/task_model.dart';
 
+enum TaskStatusType { all, pending, working, completed, underTesting }
+
 class HomePage extends StatefulWidget {
   final String? name;
   final String? email;
@@ -19,16 +21,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController _searchController = TextEditingController();
-  String selectedFilter = "All";
   final TaskController controller = Get.find();
 
+  final TextEditingController _searchController = TextEditingController();
+  TaskStatusType selectedFilter = TaskStatusType.all;
   List<TaskModel> get filteredTasks {
-    final allTasks = controller.tasks.toList();
+    final allTasks = controller.filteredTasks.toList();
 
-    if (selectedFilter == "Pending") {
+    allTasks.sort((a, b) {
+      DateTime dateA = _parseDate(a.date);
+      DateTime dateB = _parseDate(b.date);
+      return dateA.compareTo(dateB);
+    });
+
+    if (selectedFilter == TaskStatusType.pending) {
       return allTasks.where((t) => !t.isCompleted).toList();
-    } else if (selectedFilter == "Completed") {
+    } else if (selectedFilter == TaskStatusType.completed) {
       return allTasks.where((t) => t.isCompleted).toList();
     }
 
@@ -40,107 +48,120 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F6FC),
       bottomNavigationBar: CustomBottomBar(currentIndex: 0),
-      body: Obx(() {
-        final bool isEmpty = filteredTasks.isEmpty;
-
-        return SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 18, left: 20, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hello, Jack 👋',
-                      style: GoogleFonts.beVietnamPro(
-                        fontSize: 18,
-                        color: Color(0xFF262626),
-                        fontWeight: FontWeight.w700,
-                      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 18, left: 20, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hello, Jack 👋',
+                    style: GoogleFonts.beVietnamPro(
+                      fontSize: 18,
+                      color: const Color(0xFF262626),
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "Let’s get things done today.",
-                      style: GoogleFonts.mukta(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF777777),
-                      ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Let’s get things done today.",
+                    style: GoogleFonts.mukta(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF777777),
                     ),
-                    const SizedBox(height: 20),
+                  ),
+                  const SizedBox(height: 20),
 
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/homepage/search_icon.png',
-                            height: 20,
-                            width: 20,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              style: GoogleFonts.beVietnamPro(
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/homepage/search_icon.png',
+                          height: 20,
+                          width: 20,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: controller.searchTask,
+                            style: GoogleFonts.beVietnamPro(
+                              color: const Color(0xFF777777),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Search tasks..',
+                              border: InputBorder.none,
+                              hintStyle: GoogleFonts.beVietnamPro(
                                 color: const Color(0xFF777777),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
-                              controller: _searchController,
-                              decoration: InputDecoration(
-                                hintText: 'Search tasks..',
-                                border: InputBorder.none,
-                                hintStyle: GoogleFonts.beVietnamPro(
-                                  color: const Color(0xFF777777),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    Row(
-                      children: [
-                        _buildFilterButton("All"),
-                        const SizedBox(width: 10),
-                        _buildFilterButton("Pending"),
-                        const SizedBox(width: 10),
-                        _buildFilterButton("Completed"),
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
 
-              const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
-              Expanded(
-                child: isEmpty
-                    ? _buildEmptyState()
-                    : ListView.separated(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        itemCount: filteredTasks.length,
-                        itemBuilder: (context, index) {
-                          return _buildTaskCard(filteredTasks[index]);
-                        },
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 15),
-                      ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      spacing: 10,
+                      children: TaskStatusType.values
+                          .map((e) => _buildFilterButton(e))
+                          .toList(),
+                    ),
+                  ),
+
+                  // Row(
+                  //   children:  [
+                  //     _buildFilterButton(TaskStatusType.all),
+                  //     const SizedBox(width: 10),
+                  //     _buildFilterButton("Pending"),
+                  //     const SizedBox(width: 10),
+                  //     _buildFilterButton("Completed"),
+                  //   ],
+                  // ),
+                ],
               ),
-            ],
-          ),
-        );
-      }),
+            ),
+
+            const SizedBox(height: 24),
+
+            Expanded(
+              child: Obx(() {
+                final tasks = filteredTasks;
+
+                if (tasks.isEmpty) {
+                  return _buildEmptyState();
+                }
+
+                return ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) {
+                    return _buildTaskCard(tasks[index]);
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 15),
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -176,20 +197,24 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: (){
-                            _showDeleteDialog(context, taskId);
+                          onTap: () {
+                            _showDeleteDialog(context, task.id);
                           },
                           child: SvgPicture.asset(
                             'assets/homepage/trash.svg',
                             height: 22,
                             width: 22,
                             fit: BoxFit.contain,
+                            colorFilter: ColorFilter.mode(
+                              Colors.red,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {
-                            Get.to(EditTaskPage(),arguments: task.id);
+                            Get.to(EditTaskPage(), arguments: task.id);
                           },
                           child: SvgPicture.asset(
                             'assets/homepage/edit.svg',
@@ -256,6 +281,9 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             task.isCompleted = true;
                             controller.tasks.refresh();
+                            controller.filteredTasks.assignAll(
+                              controller.tasks,
+                            );
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(left: 73, bottom: 4),
@@ -346,7 +374,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildFilterButton(String text) {
+  Widget _buildFilterButton(TaskStatusType text) {
     final bool isActive = selectedFilter == text;
 
     return GestureDetector(
@@ -364,7 +392,7 @@ class _HomePageState extends State<HomePage> {
           border: Border.all(color: const Color(0xFFE5E5E5)),
         ),
         child: Text(
-          text,
+          text.name.toString(),
           style: GoogleFonts.beVietnamPro(
             color: isActive ? Colors.white : Colors.black87,
             fontWeight: FontWeight.w500,
@@ -375,6 +403,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+final TaskController controller = Get.find<TaskController>();
+
 void _showDeleteDialog(BuildContext context, int taskId) {
   showDialog(
     context: context,
@@ -433,13 +464,12 @@ void _showDeleteDialog(BuildContext context, int taskId) {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        // Add your delete logic here
                         Get.back(); // Close dialog
                       },
                       child: InkWell(
                         onTap: () {
                           controller.deleteTask(taskId);
-                          Get.offAll(HomePage());
+                          Get.back();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -462,7 +492,6 @@ void _showDeleteDialog(BuildContext context, int taskId) {
                   ),
                   const SizedBox(width: 12),
 
-                  // No, Keep it Button
                   Expanded(
                     child: GestureDetector(
                       onTap: () => Get.back(),
@@ -492,4 +521,20 @@ void _showDeleteDialog(BuildContext context, int taskId) {
       );
     },
   );
+}
+
+DateTime _parseDate(String date) {
+  try {
+    return DateTime.parse(date);
+  } catch (e) {
+    List<String> parts = date.split('/');
+    if (parts.length == 3) {
+      return DateTime(
+        int.parse(parts[2]),
+        int.parse(parts[1]),
+        int.parse(parts[0]),
+      );
+    }
+    return DateTime.now();
+  }
 }
