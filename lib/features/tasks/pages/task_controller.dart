@@ -40,6 +40,7 @@ class TaskController extends GetxController {
       tasks.refresh();
     }
   }
+  
   void searchTask(String query) {
     if (query.isEmpty) {
       filteredTasks.assignAll(tasks);

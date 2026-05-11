@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyScreen extends StatelessWidget {
-  const MyScreen({super.key});
+// class MyScreen extends StatelessWidget {
+//   const MyScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'NoteNest',
-      home: Splashscreen(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'NoteNest',
+//       home: Splashscreen(),
+//     );
+//   }
+// }
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -40,12 +40,13 @@ class _SplashscreenState extends State<Splashscreen> {
       );
     }
   }
-
+ 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF794098),
       body: Align(
-        alignment: Alignment.center,
+        // alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

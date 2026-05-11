@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "568662285317",
+    "project_id": "notenest-c49c4",
+    "storage_bucket": "notenest-c49c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568662285317:android:91d719884529406f20d06c",
+        "android_client_info": {
+          "package_name": "com.example.untitled2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADe3PLltr_S0EFrYNxuM-Yh_RfF8MaW7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

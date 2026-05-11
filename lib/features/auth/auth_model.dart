@@ -1,29 +1,22 @@
-import 'package:flutter/material.dart';
+class UserModel {
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String uid;
 
-class CustomField extends StatelessWidget {
-  final String hint;
-  final IconData? icon;
-  final bool isPassword;
-  final TextEditingController? controller;
-
-  const CustomField({
-    super.key,
-    required this.hint,
-    this.icon,
-    this.isPassword = false,
-    this.controller,
+  UserModel({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.uid,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        hintText: hint,
-        prefixIcon: icon != null ? Icon(icon) : null,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    );
+  Map<String, dynamic> toMap() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'uid': uid,
+    };
   }
 }

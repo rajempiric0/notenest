@@ -23,10 +23,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _emailController = TextEditingController(
     text: 'jackrob187@gmail.com',
   );
-  @override
-  void initState() {
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {

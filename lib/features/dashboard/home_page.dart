@@ -8,7 +8,13 @@ import '../tasks/pages/edit_task_page.dart';
 import '../tasks/pages/task_controller.dart';
 import '../tasks/pages/task_model.dart';
 
-enum TaskStatusType { all, pending,  completed }
+enum TaskStatusType { all, pending, completed }
+extension TaskFilterExtention on TaskStatusType{
+  String get displayName{
+    return name[0].toUpperCase()+name.substring(1);
+
+  }
+}
 
 class HomePage extends StatefulWidget {
   final String? name;
@@ -124,16 +130,6 @@ class _HomePageState extends State<HomePage> {
                           .toList(),
                     ),
                   ),
-
-                  // Row(
-                  //   children:  [
-                  //     _buildFilterButton(TaskStatusType.all),
-                  //     const SizedBox(width: 10),
-                  //     _buildFilterButton("Pending"),
-                  //     const SizedBox(width: 10),
-                  //     _buildFilterButton("Completed"),
-                  //   ],
-                  // ),
                 ],
               ),
             ),
@@ -381,6 +377,7 @@ class _HomePageState extends State<HomePage> {
       onTap: () {
         setState(() {
           selectedFilter = text;
+
         });
       },
       child: AnimatedContainer(
@@ -392,7 +389,7 @@ class _HomePageState extends State<HomePage> {
           border: Border.all(color: const Color(0xFFE5E5E5)),
         ),
         child: Text(
-          text.name.toString(),
+          text.displayName,
           style: GoogleFonts.beVietnamPro(
             color: isActive ? Colors.white : Colors.black87,
             fontWeight: FontWeight.w500,

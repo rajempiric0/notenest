@@ -23,75 +23,73 @@ class TaskDetailPage extends StatelessWidget {
 
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 62, left: 20),
-              child: SingleChildScrollView(
-                child: Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    // Back Button
-                    GestureDetector(
-                      onTap: () {
-                        Get.offAll(HomePage());
-                      },
+            SingleChildScrollView(
+                 padding: const EdgeInsets.only(top: 62, left: 20),
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                children: [
+                  // Back Button
+                  GestureDetector(
+                    onTap: () {
+                      Get.offAll(HomePage());
+                    },
+                    child: Container(
+                      height: 44,
+                      width: 44,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: const Color(0xFFE5E2E3),
+                          width: 2,
+                        ),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 24,
+                          color: Colors.black45,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Title
+                  Center(
+                    child: Text(
+                      'Task Details',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.beVietnamPro(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Align(
+                      alignment: Alignment.topRight,
                       child: Container(
                         height: 44,
                         width: 44,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: const Color(0xFFE5E2E3),
-                            width: 2,
-                          ),
+                          border: Border.all(color: Colors.transparent),
                         ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.arrow_back_ios_new,
-                            size: 24,
-                            color: Colors.black45,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Title
-                    Center(
-                      child: Text(
-                        'Task Details',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.beVietnamPro(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          height: 44,
-                          width: 44,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.transparent),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(EditTaskPage(),arguments: task?.id);
-                            },
-                            child: Center(
-                              child: SvgPicture.asset(
-                                'assets/homepage/edit.svg',
-                                height: 24,
-                                width: 24,
-                                fit: BoxFit.contain,
-                              ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(EditTaskPage(),arguments: task?.id);
+                          },
+                          child: Center(
+                            child: SvgPicture.asset(
+                              'assets/homepage/edit.svg',
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 
@@ -238,7 +236,7 @@ void _showDeleteDialog(BuildContext context, int taskId) {
     context: context,
     builder: (BuildContext context) {
       return Dialog(
-        backgroundColor: Color(0xFFFFFFFF), // Your desired color
+        backgroundColor: Color(0xFFFFFFFF), 
         surfaceTintColor: Color(0xFFFFFFFF),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: Padding(
