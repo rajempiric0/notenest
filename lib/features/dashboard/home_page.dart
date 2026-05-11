@@ -8,7 +8,7 @@ import '../tasks/pages/edit_task_page.dart';
 import '../tasks/pages/task_controller.dart';
 import '../tasks/pages/task_model.dart';
 
-enum TaskStatusType { all, pending, working, completed, underTesting }
+enum TaskStatusType { all, pending,  completed }
 
 class HomePage extends StatefulWidget {
   final String? name;
