@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class CommonHeader extends StatelessWidget {
   final String title;
-  final VoidCallback? onBack;
 
-  const CommonHeader({super.key, required this.title, this.onBack});
+  const CommonHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +17,7 @@ class CommonHeader extends StatelessWidget {
           // Back Button
           GestureDetector(
             onTap: () {
-              if (onBack != null) {
-                onBack!();
-              } else {
-                Navigator.pop(context);
-              }
+              Get.back();
             },
             child: Container(
               height: 44,

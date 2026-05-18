@@ -1,9 +1,10 @@
-import 'package:NoteNest/features/dashboard/home_page.dart';
+import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:NoteNest/features/setting/header.dart';
 import 'package:NoteNest/features/tasks/pages/task_controller.dart';
-import 'package:NoteNest/features/tasks/pages/task_detail_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class CreateTask extends StatefulWidget {
@@ -26,6 +27,18 @@ class _CreateTaskState extends State<CreateTask> {
     _dateController.dispose();
     super.dispose();
   }
+
+  Future<void> addTask() async {
+    await FirebaseFirestore.instance.collection('tasks').add({
+      'title': _taskTitleController.text.trim(),
+      'description': _descriptionController.text.trim(),
+      'dueDate': _dateController.text.trim(),
+      'isCompleted': false,
+      'createdAt': FieldValue.serverTimestamp(),
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,10 +224,10 @@ class _CreateTaskState extends State<CreateTask> {
                                     description: _descriptionController.text,
                                     date: _dateController.text,
                                   );
+                                  addTask();
 
                                   Get.to(HomePage(), arguments: task.id);
                                 }
-
                               },
 
                               style: ElevatedButton.styleFrom(
@@ -266,7 +279,7 @@ class _CreateTaskState extends State<CreateTask> {
     );
 
     if (picked != null) {
-        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+      _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
     }
   }
 }
