@@ -1,24 +1,29 @@
 import 'package:NoteNest/features/bottom_navigation_bar.dart'
     show CustomBottomBar;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:NoteNest/features/setting/header.dart';
 import 'package:NoteNest/features/setting/language_page.dart';
 import 'package:NoteNest/features/setting/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../auth/signup_page.dart';
+import '../auth/login_page.dart';
+import '../dashboard/screens/home_controller.dart';
 
 class SettingPage extends StatefulWidget {
-  final String? name;
-  final String? email;
-
-  const SettingPage({super.key, this.name, this.email});
+  const SettingPage({super.key});
   @override
   State<SettingPage> createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
-  //PageController _controller = PageController();
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserData() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    return FirebaseFirestore.instance.collection('users').doc(uid).get();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,163 +31,175 @@ class _SettingPageState extends State<SettingPage> {
       backgroundColor: Color(0xFFF7F6FC),
       bottomNavigationBar: CustomBottomBar(currentIndex: 1),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 18.0),
-              child: CommonHeader(title: "Settings"),
-            ),
+        child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          future: getUserData(),
+          builder: (context, snapshot) {
+            String fullName = '';
+            String email = FirebaseAuth.instance.currentUser?.email ?? '';
 
-            Padding(
-              padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+            if (snapshot.hasData && snapshot.data!.exists) {
+              final data = snapshot.data!.data();
 
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 28,
-                        child: Image.asset(
-                          'assets/setting/person_image.png',
-                          width: 52,
-                          height: 52,
-                        ),
-                      ),
-                      const SizedBox(width: 15),
+              fullName =
+                  '${data?['firstName'] ?? ''} ${data?['lastName'] ?? ''}';
+            }
 
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Jack Rob',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF2E2E32),
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'jackrob187@gmail.com',
-                              style: const TextStyle(
-                                color: Color(0xFF6A6B73),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const Icon(Icons.arrow_forward_ios_outlined, size: 16),
-                    ],
-                  ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 18.0),
+                  child: CommonHeader(title: "Settings"),
                 ),
-              ),
-            ),
 
-            const SizedBox(height: 20),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Container(
-                height: 150,
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LanguagePage(),
-                          ),
-                        );
-                      },
-
+                Padding(
+                  padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(ProfilePage());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/setting/translate.svg',
-                              height: 24,
-                              width: 24,
-                              fit: BoxFit.contain,
+                          CircleAvatar(
+                            radius: 28,
+                            child: Image.asset(
+                              'assets/setting/person_image.png',
+                              width: 52,
+                              height: 52,
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 15),
+
                           Expanded(
-                            child: Text(
-                              "Language",
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF252526),
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  fullName,
+                                  style: GoogleFonts.beVietnamPro(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF2E2E32),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  email,
+                                  style: GoogleFonts.beVietnamPro(
+                                    color: Color(0xFF6A6B73),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
+
+                          const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 16,
                           ),
                         ],
                       ),
                     ),
-
-                    Divider(color: Colors.grey.shade300),
-                    const SizedBox(height: 16),
-
-                    GestureDetector(
-                      onTap: () {
-                        _showDeleteDialog(context);
-                      },
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SvgPicture.asset(
-                              'assets/setting/logout.svg',
-                              height: 24,
-                              width: 24,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(width: 12),
-                          Text(
-                            "Log out",
-
-                            style: GoogleFonts.beVietnamPro(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ],
+
+                const SizedBox(height: 20),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
+                  child: Container(
+                    height: 150,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(LanguagePage());
+                          },
+
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/setting/translate.svg',
+                                  height: 24,
+                                  width: 24,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  "Language",
+                                  style: GoogleFonts.beVietnamPro(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF252526),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Divider(color: Colors.grey.shade300),
+                        const SizedBox(height: 16),
+
+                        GestureDetector(
+                          onTap: () {
+                            _showDeleteDialog(context);
+                          },
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                  'assets/setting/logout.svg',
+                                  height: 24,
+                                  width: 24,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Text(
+                                "Log out",
+
+                                style: GoogleFonts.beVietnamPro(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -240,25 +257,18 @@ void _showDeleteDialog(BuildContext context) {
               ),
               const SizedBox(height: 20),
 
-              // Action Buttons
               Row(
                 children: [
-                  // Yes, Delete Button
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        // Add your delete logic here
-                        Navigator.pop(context); // Close dialog
+                        Get.back();
                       },
                       child: InkWell(
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpPage(),
-                            ),
-                            (route) => false,
-                          );
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Get.delete<HomeController>();
+                          Get.offAll(() => LoginPage());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -281,10 +291,9 @@ void _showDeleteDialog(BuildContext context) {
                   ),
                   const SizedBox(width: 12),
 
-                  // No, Keep it Button
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () =>Get.back(),
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(

@@ -1,6 +1,6 @@
 import 'package:NoteNest/features/auth/auth_service.dart';
 import 'package:NoteNest/features/auth/login_page.dart';
-import 'package:NoteNest/features/dashboard/home_page.dart';
+import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,16 +17,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController firstNameController = TextEditingController();
-
-  final TextEditingController lastNameController = TextEditingController();
-
-  final TextEditingController emailController = TextEditingController();
-
-  final TextEditingController passwordController = TextEditingController();
-
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
   late var _isObscured = true;
   late var _isObscuredText = true;
   bool _isChecked = false;
@@ -39,13 +29,13 @@ class _SignUpPageState extends State<SignUpPage> {
     setState(() => loading = true);
 
     try {
-      final user = await _authService.signUp(
-        firstName: firstNameController.text.trim(),
-        lastName: lastNameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+      final users = await _authService.signUp(
+        firstName: _authService.firstNameController.text.trim(),
+        lastName: _authService.lastNameController.text.trim(),
+        email: _authService.emailController.text.trim(),
+        password: _authService.passwordController.text.trim(),
       );
-      if (user != null) {
+      if (users != null) {
         Get.offAll(HomePage());
       }
     } catch (e) {
@@ -57,11 +47,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    _authService.firstNameController.dispose();
+    _authService.lastNameController.dispose();
+    _authService.emailController.dispose();
+    _authService.passwordController.dispose();
+    _authService.confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -115,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       Expanded(
                         child: _buildTextField(
-                          controller: firstNameController,
+                          controller: _authService.firstNameController,
                           hint: "Jack",
                           label: "First Name",
                         ),
@@ -123,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: _buildTextField(
-                          controller: lastNameController,
+                          controller: _authService.lastNameController,
                           hint: "Rob",
                           label: "Last Name",
                         ),
@@ -168,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF6F6F73),
                     ),
-                    controller: emailController,
+                    controller: _authService.emailController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'password  is required';
@@ -228,7 +218,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     obscureText: _isObscuredText,
 
-                    controller: passwordController,
+                    controller: _authService.passwordController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'password  is required';
@@ -302,11 +292,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     obscureText: _isObscured,
 
-                    controller: confirmPasswordController,
+                    controller: _authService.confirmPasswordController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'password is required';
-                      } else if (value != passwordController.text) {
+                      } else if (value !=
+                          _authService.passwordController.text) {
                         return 'Passwords do not match';
                       }
                       return null;
@@ -352,8 +343,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         value: _isChecked,
                         onChanged: (bool? newValue) {
                           setState(() {
-                            _isChecked =
-                                newValue!; // Updates the state on tap
+                            _isChecked = newValue!; // Updates the state on tap
                           });
                         },
                       ),
@@ -400,7 +390,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: !_isChecked? null:() => signupUser(),
+                    onPressed: !_isChecked ? null : () => signupUser(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF794098),
                       shape: RoundedRectangleBorder(

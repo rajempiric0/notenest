@@ -16,8 +16,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
-  Future<void> resetPassword() async {
 
+  bool loading = false;
+
+  Future<void> resetPassword() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -27,51 +29,43 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
 
     try {
-
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(
+      await FirebaseAuth.instance.sendPasswordResetEmail(
         email: emailController.text.trim(),
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Password reset email sent",
-          ),
-        ),
+        const SnackBar(content: Text("Password reset email sent")),
       );
 
-      Get.back();
+      showResetDialog();
     } on FirebaseAuthException catch (e) {
-
       String message = "";
 
       if (e.code == 'user-not-found') {
         message = "No user found";
       } else if (e.code == 'invalid-email') {
         message = "Invalid email";
+      } else if (e.code == 'network-request-failed') {
+        message = "No internet connection";
       } else {
         message = e.message ?? "Something went wrong";
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     } finally {
-
       setState(() {
         loading = false;
       });
     }
   }
 
-
-  bool loading = false;
   void showResetDialog() {
     showDialog(
       context: context,
       barrierDismissible: false,
+
       builder: (context) {
         return const ResetPasswordDialog();
       },
@@ -79,81 +73,106 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
+
       body: SafeArea(
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
+
             child: Form(
               key: _formKey,
+
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+
                 children: [
                   const SizedBox(height: 18),
-              
+
                   Row(
                     children: [
                       CircleAvatar(
                         radius: 22.5,
                         backgroundColor: Colors.grey,
+
                         child: CircleAvatar(
                           radius: 22,
-                          backgroundColor: Color.fromARGB(255, 246, 244, 244),
+
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            246,
+                            244,
+                            244,
+                          ),
+
                           child: IconButton(
                             icon: const Icon(
                               Icons.arrow_back_ios_new_outlined,
                               size: 18,
                             ),
+
                             color: Colors.black,
+
                             onPressed: () => Get.back(),
                           ),
                         ),
                       ),
                     ],
                   ),
-              
+
                   const SizedBox(height: 24),
-              
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-              
+
                     children: [
                       Text(
                         "Forgot Password",
+
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF262626),
+                          color: const Color(0xFF262626),
                         ),
                       ),
                     ],
                   ),
-              
+
                   const SizedBox(height: 12),
-              
+
                   Center(
                     child: Text(
                       "Enter your registered email below to receive password reset instructions.",
+
                       style: GoogleFonts.beVietnamPro(
-                        color: Color(0xFF6F6F73),
+                        color: const Color(0xFF6F6F73),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-              
+
                   const SizedBox(height: 24),
-              
+
                   Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 0),
+
                         child: Text(
-                          //Email
                           "Email Address",
+
                           textAlign: TextAlign.center,
+
                           style: GoogleFonts.beVietnamPro(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -162,78 +181,95 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                     ],
                   ),
-              
+
                   const SizedBox(height: 4),
-              
+
                   Container(
-                    //Email Container
                     padding: const EdgeInsets.symmetric(horizontal: 12),
+
                     decoration: BoxDecoration(
                       color: Colors.white,
+
                       borderRadius: BorderRadius.circular(10),
+
                       border: Border.all(color: Colors.grey.shade300),
                     ),
+
                     child: TextFormField(
+                      controller: emailController,
+
                       style: GoogleFonts.beVietnamPro(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xFF6F6F73),
+                        color: const Color(0xFF6F6F73),
                       ),
-                      controller: emailController,
-                      validator: (value) {
 
-                        if (value == null ||
-                            value.trim().isEmpty) {
+                      keyboardType: TextInputType.emailAddress,
+
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
                           return "Email is required";
                         }
 
                         return null;
                       },
+
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 13.5),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 13.5,
+                        ),
+
                         icon: SvgPicture.asset(
                           'assets/auth/sms.svg',
                           width: 22,
                           height: 22,
                           fit: BoxFit.cover,
                         ),
+
                         hintText: "e.g. jackrob187@gmail.com",
+
                         hintStyle: GoogleFonts.beVietnamPro(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Color(0xFF6F6F73),
+                          color: const Color(0xFF6F6F73),
                         ),
+
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-              
+
                   const Spacer(),
-              
-                  // Continue Button
+
                   SizedBox(
                     width: double.infinity,
                     height: 55,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        resetPassword();
-                        showResetDialog;
 
-                      },
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff7A49A5),
+
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+
+                      onPressed: loading ? null : resetPassword,
+
                       child: Text(
                         "Continue",
+
                         textAlign: TextAlign.center,
+
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-
-
                       ),
                     ),
                   ),
-              
+
                   const SizedBox(height: 12),
                 ],
               ),

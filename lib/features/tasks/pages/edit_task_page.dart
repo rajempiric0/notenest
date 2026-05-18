@@ -1,42 +1,87 @@
 import 'package:NoteNest/features/tasks/pages/task_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:NoteNest/features/dashboard/home_page.dart';
+import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:get/get.dart';
 
 class EditTaskPage extends StatefulWidget {
-   EditTaskPage({super.key});
-  final TaskController controller = Get.find();
+  EditTaskPage({super.key});
+
+  final TaskController controller = Get.find<TaskController>();
 
   @override
   State<EditTaskPage> createState() => _EditTaskPageState();
 }
 
 class _EditTaskPageState extends State<EditTaskPage> {
-
   late TextEditingController taskTitleController;
   late TextEditingController descriptionController;
   late TextEditingController dateController;
 
+  final _formkey = GlobalKey<FormState>();
+
+  String? docId;
   int? taskId;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
 
-    taskId = Get.arguments as int?;
-    dynamic task = widget.controller.getTaskById(taskId);
+    taskTitleController = TextEditingController();
+    descriptionController = TextEditingController();
+    dateController = TextEditingController();
 
-    taskTitleController = TextEditingController(
-      text: task != null ? task.title : '',
-    );
+    final data = Get.arguments;
 
-    descriptionController = TextEditingController(
-      text: task != null ? task.description : '',
-    );
+    docId = data['docId'];
+    taskId = data['id'];
 
-    dateController = TextEditingController(text: task != null ? task.date : '');
+    fetchTaskData();
+  }
+
+  Future<void> fetchTaskData() async {
+    if (docId == null) return;
+
+    final doc = await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(docId)
+        .get();
+
+    if (doc.exists) {
+      final data = doc.data() as Map<String, dynamic>;
+
+      taskTitleController.text = data['title'] ?? '';
+      descriptionController.text = data['description'] ?? '';
+      dateController.text = data['dueDate'] ?? '';
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> updateTaskData() async {
+    if (docId == null) return;
+
+    await FirebaseFirestore.instance.collection('tasks').doc(docId).update({
+      'title': taskTitleController.text.trim(),
+      'description': descriptionController.text.trim(),
+      'dueDate': dateController.text.trim(),
+      'updatedAt': Timestamp.now(),
+    });
+  }
+
+  Future<void> deleteTaskData() async {
+    if (docId == null) return;
+
+    await FirebaseFirestore.instance.collection('tasks').doc(docId).delete();
+
+    if (taskId != null) {
+      widget.controller.deleteTask(taskId!);
+    }
   }
 
   @override
@@ -46,253 +91,83 @@ class _EditTaskPageState extends State<EditTaskPage> {
     dateController.dispose();
     super.dispose();
   }
-  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFFFFF),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
-      backgroundColor: Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: Form(
         key: _formkey,
         child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 62, left: 20),
-            child: Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                // Back Button
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    height: 44,
-                    width: 44,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFFE5E2E3),
-                        width: 2,
-                      ),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 24,
-                        color: Colors.black45,
-                      ),
-                    ),
-                  ),
-                ),
-                // Title
-                Center(
-                  child: Text(
-                    'Edit Task Details',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.beVietnamPro(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Align(
-                    alignment: Alignment.topRight,
-
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.offAll(HomePage(),);
-                        _showDeleteDialog(context,taskId!);
-                      },
-                      child: Container(
-                        height: 44,
-                        width: 44,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            'assets/homepage/trash.svg',
-                            height: 24,
-                            width: 24,
-                            fit: BoxFit.contain,
-                            //color: Color(0xFFFF3D00),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
-              child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 62, left: 20),
+              child: Stack(
+                alignment: Alignment.centerLeft,
                 children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Add Task
-                          Text(
-                            "Task Title",
-                            style: GoogleFonts.beVietnamPro(
-                              fontSize: 14,
-                              color: const Color(0xFF6F6F73),
-                            ),
-                          ),
-
-                          const SizedBox(height: 6),
-
-                          // Task Field
-                          _buildBox(
-                            child: TextFormField(
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 16,
-                                color: Color(0xFF262626),
-                                fontWeight: FontWeight.w600,
-                              ),
-                              controller: taskTitleController,
-                              validator: (value){
-                                if(value==null || value.trim().isEmpty){
-                                  return 'title is required';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
-
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 14),
-
-                          // Description
-                          Text(
-                            "Description",
-                            style: GoogleFonts.beVietnamPro(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF6F6F73),
-                            ),
-                          ),
-
-                          const SizedBox(height: 6),
-
-                          _buildBox(
-                            child: TextFormField(
-                              style: GoogleFonts.beVietnamPro(
-                                fontSize: 16,
-                                color: Color(0xFF262626),
-                                fontWeight: FontWeight.w600,
-                              ),
-                              controller: descriptionController,
-                              validator: (value){
-                                if(value==null || value.trim().isEmpty){
-                                  return 'description is required';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 14),
-
-                          // Due Date
-                          Text(
-                            "Due Date",
-                            style: GoogleFonts.beVietnamPro(
-                              fontSize: 14,
-                              color: const Color(0xFF6F6F73),
-                            ),
-                          ),
-
-                          const SizedBox(height: 6),
-
-                          _buildBox(
-                            child: TextFormField(
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Switzer',
-                                color: Color(0xFF262626),
-                              ),
-                              controller: dateController,
-                              validator: (value){
-                                if(value==null || value.trim().isEmpty){
-                                  return 'date is required';
-                                }
-                                return null;
-                              },
-                              readOnly: true,
-                              onTap: () => _selectDate(context),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12,
-                                  horizontal: 22,
-                                ),
-                                prefixIcon: const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child: Icon(Icons.date_range_outlined),
-                                ),
-
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 14),
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 44,
+                      width: 44,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: const Color(0xFFE5E2E3),
+                          width: 2,
+                        ),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 24,
+                          color: Colors.black45,
+                        ),
                       ),
                     ),
                   ),
+
+                  Center(
+                    child: Text(
+                      'Edit Task Details',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.beVietnamPro(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formkey.currentState!.validate()) {
-                            if (taskId != null) {
-                              widget.controller.updateTask(
-                                taskId!,
-                                taskTitleController.text,
-                                descriptionController.text,
-                                dateController.text,
-                              );
-                            }
-
-                            Get.offAll(HomePage());
-                          }
-
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          _showDeleteDialog(context);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff7A49A5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
+                        child: Container(
+                          height: 44,
+                          width: 44,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.transparent),
                           ),
-                        ),
-                        child: Text(
-                          'Save',
-                          style: GoogleFonts.beVietnamPro(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                          child: Center(
+                            child: SvgPicture.asset(
+                              'assets/homepage/trash.svg',
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
@@ -301,9 +176,180 @@ class _EditTaskPageState extends State<EditTaskPage> {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
+
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 24, left: 20, right: 20),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Task Title",
+                              style: GoogleFonts.beVietnamPro(
+                                fontSize: 14,
+                                color: const Color(0xFF6F6F73),
+                              ),
+                            ),
+
+                            const SizedBox(height: 6),
+
+                            _buildBox(
+                              child: TextFormField(
+                                controller: taskTitleController,
+                                style: GoogleFonts.beVietnamPro(
+                                  fontSize: 16,
+                                  color: const Color(0xFF262626),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'title is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 14),
+
+                            Text(
+                              "Description",
+                              style: GoogleFonts.beVietnamPro(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF6F6F73),
+                              ),
+                            ),
+
+                            const SizedBox(height: 6),
+
+                            _buildBox(
+                              child: TextFormField(
+                                controller: descriptionController,
+                                style: GoogleFonts.beVietnamPro(
+                                  fontSize: 16,
+                                  color: const Color(0xFF262626),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'description is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 14),
+
+                            Text(
+                              "Due Date",
+                              style: GoogleFonts.beVietnamPro(
+                                fontSize: 14,
+                                color: const Color(0xFF6F6F73),
+                              ),
+                            ),
+
+                            const SizedBox(height: 6),
+
+                            _buildBox(
+                              child: TextFormField(
+                                controller: dateController,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Switzer',
+                                  color: Color(0xFF262626),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'date is required';
+                                  }
+                                  return null;
+                                },
+                                readOnly: true,
+                                onTap: () => _selectDate(context),
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 22,
+                                  ),
+                                  prefixIcon: Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: Icon(Icons.date_range_outlined),
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 14),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formkey.currentState!.validate()) {
+                              await updateTaskData();
+
+                              if (taskId != null) {
+                                widget.controller.updateTask(
+                                  taskId!,
+                                  taskTitleController.text.trim(),
+                                  descriptionController.text.trim(),
+                                  dateController.text.trim(),
+                                );
+                              }
+
+                              Get.offAll(() => HomePage());
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff7A49A5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: Text(
+                            'Save',
+                            style: GoogleFonts.beVietnamPro(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -318,29 +364,26 @@ class _EditTaskPageState extends State<EditTaskPage> {
       child: child,
     );
   }
-  final TaskController controller = Get.find<TaskController>();
 
-  void _showDeleteDialog(BuildContext context, int taskId) {
+  void _showDeleteDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Color(0xFFFFFFFF), // Your desired color
-          surfaceTintColor: Color(0xFFFFFFFF),
+          backgroundColor: const Color(0xFFFFFFFF),
+          surfaceTintColor: const Color(0xFFFFFFFF),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Wrap content height
-
+              mainAxisSize: MainAxisSize.min,
               children: [
-                // Trash Icon with Circular Background
                 Container(
                   height: 101,
                   width: 101,
-                  decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+                  decoration: const BoxDecoration(color: Color(0xFFFFFFFF)),
                   child: SvgPicture.asset(
                     'assets/homepage/delete_task.svg',
                     width: 100,
@@ -348,9 +391,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
                     fit: BoxFit.contain,
                   ),
                 ),
+
                 const SizedBox(height: 24),
 
-                // Title
                 Text(
                   'Delete Task',
                   style: GoogleFonts.beVietnamPro(
@@ -359,9 +402,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
                     color: const Color(0xFF252526),
                   ),
                 ),
+
                 const SizedBox(height: 12),
 
-                // Subtitle
                 Text(
                   'Are you sure you want to delete this Task?',
                   textAlign: TextAlign.center,
@@ -371,48 +414,38 @@ class _EditTaskPageState extends State<EditTaskPage> {
                     color: const Color(0xFF252526),
                   ),
                 ),
+
                 const SizedBox(height: 30),
 
-                // Action Buttons
                 Row(
                   children: [
-                    // Yes, Delete Button
                     Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          // Add your delete logic here
-                          Get.back();
+                      child: InkWell(
+                        onTap: () async {
+                          await deleteTaskData();
+                          Get.offAll(() => HomePage());
                         },
-                        child: InkWell(
-                          onTap: () {
-                            controller.deleteTask(taskId);
-                            Get.offAll(HomePage());
-
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: const Color(0xFFFF3D00),
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Text(
-                              'Yes, Delete',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.beVietnamPro(
-                                color: const Color(0xFFFF3D00),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFFFF3D00)),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(
+                            'Yes, Delete',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.beVietnamPro(
+                              color: const Color(0xFFFF3D00),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                       ),
                     ),
+
                     const SizedBox(width: 12),
 
-                    // No, Keep it Button
                     Expanded(
                       child: GestureDetector(
                         onTap: () => Get.back(),
@@ -445,26 +478,29 @@ class _EditTaskPageState extends State<EditTaskPage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime initialdate;
-    if (dateController.text.isNotEmpty) {
-      final parts = dateController.text.split('/');
-      initialdate = DateTime(
+    DateTime initialDate;
+
+    if (dateController.text.trim().isNotEmpty) {
+      final parts = dateController.text.trim().split('/');
+
+      initialDate = DateTime(
         int.parse(parts[2]),
         int.parse(parts[1]),
         int.parse(parts[0]),
       );
     } else {
-      initialdate = DateTime.now();
+      initialDate = DateTime.now();
     }
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: initialdate,
+      initialDate: initialDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
     if (picked != null) {
-      dateController.text = "   ${picked.day}/${picked.month}/${picked.year}";
+      dateController.text = "${picked.day}/${picked.month}/${picked.year}";
     }
   }
 }

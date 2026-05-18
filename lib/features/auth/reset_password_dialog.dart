@@ -1,4 +1,6 @@
 import 'package:NoteNest/features/auth/login_page.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,10 +65,7 @@ class ResetPasswordDialog extends StatelessWidget {
 
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
+                  Get.to(LoginPage());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff7A49A5),
