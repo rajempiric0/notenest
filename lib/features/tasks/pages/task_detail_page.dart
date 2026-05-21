@@ -1,11 +1,12 @@
-import 'package:NoteNest/features/dashboard/screens/home_page.dart';
 import 'package:NoteNest/features/tasks/pages/edit_task_page.dart';
-import 'package:NoteNest/features/tasks/pages/task_controller.dart';
+import 'package:NoteNest/features/tasks/controller/task_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+
+import '../../dashboard/pages/home_page.dart';
 
 class TaskDetailPage extends StatelessWidget {
   TaskDetailPage({super.key});
@@ -56,7 +57,8 @@ class TaskDetailPage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.offAll(HomePage());
+                        Get.offAll(
+                            HomePage());
                       },
                       child: Container(
                         height: 44,
@@ -80,7 +82,7 @@ class TaskDetailPage extends StatelessWidget {
 
                     Center(
                       child: Text(
-                        'Task Details',
+                        'task_details'.tr,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.beVietnamPro(
                           fontSize: 22,
@@ -249,7 +251,7 @@ class TaskDetailPage extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      "Delete Task",
+                      "delete_task".tr,
                       style: GoogleFonts.beVietnamPro(
                         color: const Color(0xFFFF3D00),
                         fontWeight: FontWeight.w600,
@@ -295,7 +297,7 @@ void _showDeleteDialog(BuildContext context, String docId) {
               const SizedBox(height: 24),
 
               Text(
-                'Delete Task',
+                'delete_task'.tr,
                 style: GoogleFonts.beVietnamPro(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -306,7 +308,7 @@ void _showDeleteDialog(BuildContext context, String docId) {
               const SizedBox(height: 12),
 
               Text(
-                'Are you sure you want to delete this Task?',
+                'delete_task_message'.tr,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.beVietnamPro(
                   fontSize: 16,
@@ -337,7 +339,7 @@ void _showDeleteDialog(BuildContext context, String docId) {
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Text(
-                          'Yes, Delete',
+                          'yes_delete'.tr,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.beVietnamPro(
                             color: const Color(0xFFFF3D00),
@@ -361,7 +363,7 @@ void _showDeleteDialog(BuildContext context, String docId) {
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Text(
-                          'No, Keep it',
+                          'no_keep_it'.tr,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.beVietnamPro(
                             color: Colors.white,
