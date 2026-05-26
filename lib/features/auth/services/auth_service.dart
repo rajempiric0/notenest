@@ -53,3 +53,10 @@ class AuthService {
 
   User? get currentUser => _auth.currentUser;
 }
+
+
+Future<void> sendPasswordResetEmail(String email) async {
+  await FirebaseAuth.instance.sendPasswordResetEmail(
+    email: email.trim(),
+  );
+}

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
+import '../../auth/pages/login_page.dart';
 
 class ProfileService {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -16,7 +19,15 @@ class ProfileService {
     required String lastName,
     required String email,
   }) async {
-    await firestore.collection('users').doc(uid).update({
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) return;
+
+    if (user.email != email) {
+      await user.verifyBeforeUpdateEmail(email);
+    }
+
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
@@ -24,12 +35,32 @@ class ProfileService {
   }
 
   Future<void> deleteUserAccount() async {
-    final user = auth.currentUser;
+    final user = FirebaseAuth.instance.currentUser;
+
     if (user == null) return;
 
-    await firestore.collection('users').doc(user.uid).delete();
-    await user.delete();
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .delete();
+
+      await user.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        Get.snackbar(
+          'Login again',
+          'For security, please login again before deleting account.',
+        );
+
+        await FirebaseAuth.instance.signOut();
+        Get.offAll(() => LoginPage());
+      } else {
+        Get.snackbar('Error', e.message ?? 'Something went wrong');
+      }
+    }
   }
+
 
   Future<void> logout() async {
     await auth.signOut();
