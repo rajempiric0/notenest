@@ -16,6 +16,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/utils/validators.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -101,15 +103,11 @@ class _LoginPageState extends State<LoginPage> {
                 AuthTextField(
                   label: "Email Address",
                   hint: "e.g. jackrob187@gmail.com",
+                  validator: Validators.email,
                   controller: emailController,
                   iconPath: 'assets/auth/sms.svg',
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'email id is required';
-                    }
-                    return null;
-                  },
+
                 ),
 
                 const SizedBox(height: 12),
@@ -125,10 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'password is required';
-                    }
-                    return null;
+                    return Validators.confirmPassword(
+                      value,
+                      passwordController.text,
+                    );
                   },
                 ),
 
